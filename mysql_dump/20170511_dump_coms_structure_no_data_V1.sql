@@ -222,7 +222,7 @@ DROP TABLE IF EXISTS `coms_participant_email`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `coms_participant_email` (
   `coms_participant_email_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `coms_participant_emailadresss` varchar(70) DEFAULT NULL,
+  `coms_participant_emailadress` varchar(70) DEFAULT NULL,
   `coms_participant_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`coms_participant_email_id`),
   KEY `coms_participant_id_fk_2_idx` (`coms_participant_id`),
