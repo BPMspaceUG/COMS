@@ -322,8 +322,9 @@ DELIMITER ;
 				SET @lastname = generate_lname();
 				SET @firstname = generate_fname();
 
-				INSERT INTO .`coms_participant` (`coms_participant_lastname`, `coms_participant_firstname`, `coms_participant_public`, `coms_participant_placeofbirth`, `coms_participant_birthcountry`) VALUES (@lastname, @firstname, '0', str_random('Cccc(4)'), str_random('Cccc(7)'));
+				INSERT INTO .`coms_participant` (`coms_participant_lastname`, `coms_participant_firstname`, `coms_participant_public`, `coms_participant_placeofbirth`, `coms_participant_birthcountry`, `coms_participant_gender`) VALUES (@lastname, @firstname, '0', str_random('Cccc(4)'), str_random('Cccc(7)'), elt(floor(rand()*2) + 1, 'male', 'female'));
 				SET @lastid = LAST_INSERT_ID();
+				INSERT INTO .`coms_participant_email` (`coms_participant_emailadress`, `coms_participant_id`) VALUES (concat(@firstname, ".", @lastname, "@", str_random('cccc(4)'), ".", str_random('cccc(2)')), @lastid);
 				INSERT INTO `coms_participant_identifier` (`coms_participant_id`, `coms_participant_matriculation`, `coms_participant_md5`) VALUES (@lastid, @lastid, md5(concat(@lastid,@firstname,@lastname)));
 
 				set x = x+1;
@@ -354,8 +355,7 @@ SET
 WHERE
     TRUE;
 
--- no gender
--- no e-mai
+
 -- SET FOREIGN_KEY_CHECKS = 0;
 -- ALTER TABLE users AUTO_INCREMENT=1001;
 
