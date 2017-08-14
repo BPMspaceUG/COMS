@@ -18,6 +18,7 @@ CREATE
 VIEW `v_coms_trainer_exam_org` AS
     SELECT 
         `training_organisation`.`coms_training_organisation_id` AS `coms_training_organisation_id`,
+        `training_organisation`.`coms_training_organisation_id_md5` AS `coms_training_organisation_id_md5`,
         `training_organisation`.`coms_training_organisation_name` AS `coms_training_organisation_name`,
         `trainer`.`coms_trainer_id` AS `coms_trainer_id`,
         `trainer`.`coms_trainer_id_base32` AS `coms_trainer_id_base32`,
