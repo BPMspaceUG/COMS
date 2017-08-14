@@ -23,7 +23,8 @@ VIEW `v_coms_trainer_exam_org` AS
         `trainer`.`coms_trainer_id_base32` AS `coms_trainer_id_base32`,
         `trainer`.`coms_trainer_firstname` AS `coms_trainer_firstname`,
         `trainer`.`coms_trainer_lastname` AS `coms_trainer_lastname`,
-        `exam`.`coms_exam_name` AS `coms_exam_name`
+        `exam`.`coms_exam_id` AS `coms_exam_id`,
+		    `exam`.`coms_exam_name` AS `coms_exam_name`
     FROM
         ((((`coms_trainer` `trainer`
         JOIN `coms_trainer_exam` `trainer_exam`)
