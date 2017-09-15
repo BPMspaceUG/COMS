@@ -12,6 +12,9 @@
   else {
     $logged = 'in';
   }
+  
+  // Includes
+  include_once("../DB_config/login_credentials_DB_bpmspace_coms.inc.php"); 
 
   // Parameter and inputstream
   $params = json_decode(file_get_contents('php://input'), true);
