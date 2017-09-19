@@ -51,3 +51,7 @@ VIEW `v_exam_event__exam__trainingorg__trainer` AS
             AND (`ExEv`.`coms_trainer_id` = `Tr`.`coms_trainer_id`)
             AND (`Ex`.`coms_exam_language_id` = `Lg`.`coms_language_id`)
             AND (`ExEv`.`coms_proctor_id` = `Pr`.`coms_proctor_id`))
+	        
+ALTER TABLE `bpmspace_coms_v1`.`coms_exam_event` 
+CHANGE COLUMN `coms_exam_event_location` `coms_exam_event_location` VARCHAR(256) NULL DEFAULT NULL ;
+   
