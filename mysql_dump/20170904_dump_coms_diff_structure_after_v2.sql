@@ -55,3 +55,48 @@ VIEW `v_exam_event__exam__trainingorg__trainer` AS
 ALTER TABLE `bpmspace_coms_v1`.`coms_exam_event` 
 CHANGE COLUMN `coms_exam_event_location` `coms_exam_event_location` VARCHAR(256) NULL DEFAULT NULL ;
    
+CREATE VIEW `v_coms_participant__Exam_Event` AS
+    SELECT DISTINCT
+        `EE`.`coms_exam_event_id` AS `coms_exam_event_id`,
+        `EE`.`coms_exam_event_name` AS `coms_exam_event_name`,
+        `EE`.`state_id` AS `event_state_id`,
+        `ST2`.`name` AS `event state name`,
+        `EE`.`coms_exam_event_start_date` AS `coms_exam_event_start_date`,
+        `EE`.`coms_exam_event_finish_date` AS `coms_exam_event_finish_date`,
+        `EE`.`coms_exam_event_location` AS `coms_exam_event_location`,
+        `EE`.`coms_exam_id` AS `coms_exam_id`,
+        `EE`.`coms_delivery_type_id` AS `coms_delivery_type_id`,
+        `DT`.`coms_delivery_description` AS `coms_delivery_description`,
+        `EE`.`coms_training_org_id` AS `coms_training_org_id`,
+        `TRO`.`coms_training_organisation_name` AS `coms_training_organisation_name`,
+        `EE`.`coms_trainer_id` AS `coms_trainer_id`,
+        `TR`.`coms_trainer_lastname` AS `coms_trainer_lastname`,
+        `TR`.`coms_trainer_firstname` AS `coms_trainer_firstname`,
+        `P`.`coms_participant_id` AS `coms_participant_id`,
+        `P`.`coms_participant_gender` AS `coms_participant_gender`,
+        `P`.`coms_participant_lastname` AS `coms_participant_lastname`,
+        `P`.`coms_participant_firstname` AS `coms_participant_firstname`,
+        `PEE`.`state_id` AS `participant_state`,
+        `ST1`.`name` AS `participant_state_name`,
+        `P`.`coms_participant_public` AS `coms_participant_public`,
+        `P`.`coms_participant_placeofbirth` AS `coms_participant_placeofbirth`,
+        `P`.`coms_participant_birthcountry` AS `coms_participant_birthcountry`,
+        `P`.`coms_participant_dateofbirth` AS `coms_participant_dateofbirth`,
+        `P`.`coms_participant_LIAM_id` AS `coms_participant_LIAM_id`
+    FROM
+        (((((((`coms_participant` `P`
+        JOIN `coms_participant_exam_event` `PEE`)
+        JOIN `coms_exam_event` `EE`)
+        JOIN `state` `ST1`)
+        JOIN `state` `ST2`)
+        JOIN `coms_delivery_type` `DT`)
+        JOIN `coms_training_organisation` `TRO`)
+        JOIN `coms_trainer` `TR`)
+    WHERE
+        ((`P`.`coms_participant_id` = `PEE`.`coms_participant_id`)
+            AND (`PEE`.`coms_exam_event_id` = `EE`.`coms_exam_event_id`)
+            AND (`ST1`.`state_id` = `PEE`.`state_id`)
+            AND (`ST2`.`state_id` = `EE`.`state_id`)
+            AND (`DT`.`coms_delivery_type_id` = `EE`.`coms_delivery_type_id`)
+            AND (`TRO`.`coms_training_organisation_id` = `EE`.`coms_training_org_id`)
+            AND (`TR`.`coms_trainer_id` = `EE`.`coms_trainer_id`))
