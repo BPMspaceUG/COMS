@@ -60,7 +60,7 @@ CREATE VIEW `v_coms_participant__Exam_Event` AS
         `EE`.`coms_exam_event_id` AS `coms_exam_event_id`,
         `EE`.`coms_exam_event_name` AS `coms_exam_event_name`,
         `EE`.`state_id` AS `event_state_id`,
-        `ST2`.`name` AS `event state name`,
+        `ST2`.`name` AS `event_state_name`,
         `EE`.`coms_exam_event_start_date` AS `coms_exam_event_start_date`,
         `EE`.`coms_exam_event_finish_date` AS `coms_exam_event_finish_date`,
         `EE`.`coms_exam_event_location` AS `coms_exam_event_location`,
