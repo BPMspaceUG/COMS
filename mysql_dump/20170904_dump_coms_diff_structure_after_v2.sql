@@ -125,3 +125,10 @@ CREATE VIEW `v_coms_datasheet_exam_event` AS
     FROM
         (`v_coms_participant__id__email`
         JOIN `coms_participant_exam_event` ON ((`v_coms_participant__id__email`.`coms_participant_id` = `coms_participant_exam_event`.`coms_participant_id`)))
+
+
+
+ALTER TABLE `bpmspace_coms_v1`.`coms_training_organisation` 
+ADD COLUMN `coms_training_organisation_passwd_hash` VARCHAR(512) NULL AFTER `coms_training_organisation_id_md5`;
+
+
