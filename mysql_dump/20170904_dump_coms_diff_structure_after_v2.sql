@@ -100,3 +100,28 @@ CREATE VIEW `v_coms_participant__Exam_Event` AS
             AND (`DT`.`coms_delivery_type_id` = `EE`.`coms_delivery_type_id`)
             AND (`TRO`.`coms_training_organisation_id` = `EE`.`coms_training_org_id`)
             AND (`TR`.`coms_trainer_id` = `EE`.`coms_trainer_id`))
+	    
+CREATE VIEW `v_coms_datasheet_exam_event` AS
+    SELECT 
+        `v_coms_participant__id__email`.`coms_participant_id` AS `coms_participant_id`,
+        `v_coms_participant__id__email`.`coms_participant_matriculation` AS `coms_participant_matriculation`,
+        `v_coms_participant__id__email`.`coms_participant_md5` AS `coms_participant_md5`,
+        `v_coms_participant__id__email`.`coms_participant_base32` AS `coms_participant_base32`,
+        `v_coms_participant__id__email`.`coms_participant_gender` AS `coms_participant_gender`,
+        `v_coms_participant__id__email`.`coms_participant_lastname` AS `coms_participant_lastname`,
+        `v_coms_participant__id__email`.`coms_participant_firstname` AS `coms_participant_firstname`,
+        `v_coms_participant__id__email`.`coms_participant_public` AS `coms_participant_public`,
+        `v_coms_participant__id__email`.`coms_participant_placeofbirth` AS `coms_participant_placeofbirth`,
+        `v_coms_participant__id__email`.`coms_participant_birthcountry` AS `coms_participant_birthcountry`,
+        `v_coms_participant__id__email`.`coms_participant_dateofbirth` AS `coms_participant_dateofbirth`,
+        `v_coms_participant__id__email`.`coms_participant_LIAM_id` AS `coms_participant_LIAM_id`,
+        `v_coms_participant__id__email`.`coms_participant_emailadresss` AS `coms_participant_emailadresss`,
+        `v_coms_participant__id__email`.`url_form_participant` AS `url_form_participant`,
+        `coms_participant_exam_event`.`coms_participant_exam_event_id` AS `coms_participant_exam_event_id`,
+        `coms_participant_exam_event`.`coms_exam_event_id` AS `coms_exam_event_id`,
+        `coms_participant_exam_event`.`state_id` AS `state_id`,
+        `coms_participant_exam_event`.`coms_participant_exam_event_percent` AS `coms_participant_exam_event_percent`,
+        `coms_participant_exam_event`.`coms_participant_info` AS `coms_participant_info`
+    FROM
+        (`v_coms_participant__id__email`
+        JOIN `coms_participant_exam_event` ON ((`v_coms_participant__id__email`.`coms_participant_id` = `coms_participant_exam_event`.`coms_participant_id`)))
