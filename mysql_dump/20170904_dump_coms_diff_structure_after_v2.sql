@@ -142,7 +142,7 @@ VIEW `v_csvexport_trainingorg` AS
     FROM
         `coms_training_organisation`;
 
-CREATE PROCEDURE `csvexport`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `csvexport`()
 BEGIN
 SET @table_schema = 'bpmspace_coms_v1';
 SET @table_name = 'v_csvexport_trainingorg';
@@ -158,7 +158,7 @@ SET @col_names = (
 SET @cols = CONCAT('(SELECT ', @col_names, ')');
 
 SET @query = CONCAT('(SELECT * FROM ', @table_schema, '.', @table_name,
-  ' INTO OUTFILE \'/var/www/BPMspace/csv/v_csvexport_trainingorg.csv\'
+  ' INTO OUTFILE \'/var/www/BPMspace/csv/',@table_name,'.csv\'
   FIELDS ENCLOSED BY \'\\\'\' TERMINATED BY \'\t\' ESCAPED BY \'\'
   LINES TERMINATED BY \'\n\')');
 
