@@ -130,5 +130,7 @@ CREATE VIEW `v_coms_datasheet_exam_event` AS
 
 ALTER TABLE `bpmspace_coms_v1`.`coms_training_organisation` 
 ADD COLUMN `coms_training_organisation_passwd_hash` VARCHAR(512) NULL AFTER `coms_training_organisation_id_md5`;
+ADD COLUMN `coms_training_organisation_e-mail` VARCHAR(100) NULL ;
+
 
 
