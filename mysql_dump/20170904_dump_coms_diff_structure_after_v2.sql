@@ -144,7 +144,7 @@ VIEW `v_csvexport_trainingorg` AS
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `csvexport`()
 BEGIN
-SET @table_schema = 'bpmspace_coms_v1';
+SET @table_schema = 'bpmspace_coms_v2';
 SET @table_name = 'v_csvexport_trainingorg';
 
 
