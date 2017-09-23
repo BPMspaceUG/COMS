@@ -132,35 +132,24 @@ ALTER TABLE `bpmspace_coms_v1`.`coms_training_organisation`
 ADD COLUMN `coms_training_organisation_passwd_hash` VARCHAR(512) NULL AFTER `coms_training_organisation_id_md5`;
 ADD COLUMN `coms_training_organisation_e-mail` VARCHAR(100) NULL ;
 
-
-CREATE 
-VIEW `v_csvexport_trainingorg` AS
-    SELECT 
-        `coms_training_organisation`.`coms_training_organisation_id` AS `coms_training_organisation_id`,
-        `coms_training_organisation`.`coms_training_organisation_name` AS `coms_training_organisation_name`,
-        `coms_training_organisation`.`coms_training_organisation_passwd_hash` AS `coms_training_organisation_passwd_hash`
-    FROM
-        `coms_training_organisation`;
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `csvexport`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `csvexport`(IN table_s CHAR(255), IN table_n CHAR(255), IN outfile_path CHAR(255))
 BEGIN
-SET @table_schema = 'bpmspace_coms_v2';
-SET @table_name = 'v_csvexport_trainingorg';
-
-
+SET @table_schema = table_s;
+SET @table_n = table_n;
+SET @outfile_path = outfile_path;
 
 SET @col_names = (
-  SELECT GROUP_CONCAT(QUOTE(`column_name`)) AS columns
-  FROM information_schema.columns
-  WHERE table_schema = @table_schema
-  AND table_name = @table_name);
+SELECT GROUP_CONCAT(QUOTE(column_name)) AS columns
+FROM information_schema.columns
+WHERE table_schema = @table_schema
+AND table_name = @table_n);
 
 SET @cols = CONCAT('(SELECT ', @col_names, ')');
 
-SET @query = CONCAT('(SELECT * FROM ', @table_schema, '.', @table_name,
-  ' INTO OUTFILE \'/var/www/BPMspace/csv/',@table_name,'.csv\'
-  FIELDS ENCLOSED BY \'\\\'\' TERMINATED BY \'\t\' ESCAPED BY \'\'
-  LINES TERMINATED BY \'\n\')');
+SET @query = CONCAT('(SELECT * FROM ', @table_schema, '.', @table_n,
+' INTO OUTFILE \'',@outfile_path,'/',@table_n,'.csv\'
+FIELDS ENCLOSED BY \'\\\'\' TERMINATED BY \'\t\' ESCAPED BY \'\'
+LINES TERMINATED BY \'\n\')');
 
 /* Concatenates column names to query */
 SET @sql = CONCAT(@cols, ' UNION ALL ', @query);
