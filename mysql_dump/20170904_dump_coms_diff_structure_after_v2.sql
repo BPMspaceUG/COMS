@@ -174,3 +174,16 @@ VIEW `v_csvexport_trainingorg_exam` AS
         JOIN `coms_exam` ON ((`coms_trainingsorganisation_exam`.`coms_exam_id` = `coms_exam`.`coms_exam_id`)))
 
 
+------------------------------------
+
+CREATE 
+VIEW `v_csvexport_trainingorg_trainer` AS
+    SELECT 
+        `coms_training_organisation`.`coms_training_organisation_id` AS `coms_training_organisation_id`,
+        `coms_trainer`.`coms_trainer_id` AS `coms_trainer_id`,
+        `coms_trainer`.`coms_trainer_firstname` AS `coms_trainer_firstname`,
+        `coms_trainer`.`coms_trainer_lastname` AS `coms_trainer_lastname`
+    FROM
+        ((`coms_training_organisation`
+        JOIN `coms_training_organisation_trainer` ON ((`coms_training_organisation_trainer`.`coms_training_organisation_id` = `coms_training_organisation`.`coms_training_organisation_id`)))
+        JOIN `coms_trainer` ON ((`coms_training_organisation_trainer`.`coms_trainer_id` = `coms_trainer`.`coms_trainer_id`)))
