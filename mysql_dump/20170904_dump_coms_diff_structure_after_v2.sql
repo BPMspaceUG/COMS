@@ -187,3 +187,34 @@ VIEW `v_csvexport_trainingorg_trainer` AS
         ((`coms_training_organisation`
         JOIN `coms_training_organisation_trainer` ON ((`coms_training_organisation_trainer`.`coms_training_organisation_id` = `coms_training_organisation`.`coms_training_organisation_id`)))
         JOIN `coms_trainer` ON ((`coms_training_organisation_trainer`.`coms_trainer_id` = `coms_trainer`.`coms_trainer_id`)))
+	
+	
+---------------
+	
+	CREATE 
+VIEW `v_csvexport_trainer_exam` AS
+    SELECT 
+        `coms_trainer`.`coms_trainer_id` AS `coms_trainer_id`,
+        `coms_trainer`.`coms_trainer_firstname` AS `coms_trainer_firstname`,
+        `coms_trainer`.`coms_trainer_lastname` AS `coms_trainer_lastname`,
+        `coms_exam`.`coms_exam_language_id` AS `coms_exam_language_id`,
+        `coms_exam`.`coms_exam_id` AS `coms_exam_id`,
+        `coms_exam`.`coms_exam_name` AS `coms_exam_name`
+    FROM
+        ((`coms_trainer`
+        JOIN `coms_trainer_exam` ON ((`coms_trainer_exam`.`coms_trainer_id` = `coms_trainer`.`coms_trainer_id`)))
+        JOIN `coms_exam` ON ((`coms_trainer_exam`.`coms_exam_id` = `coms_exam`.`coms_exam_id`)))
+	
+-----------------------
+
+CREATE 
+VIEW `v_csvexport_trainingorg_proctor` AS
+    SELECT 
+        `coms_training_organisation`.`coms_training_organisation_id` AS `coms_training_organisation_id`,
+        `coms_proctor`.`coms_proctor_id` AS `coms_proctor_id`,
+        `coms_proctor`.`coms_proctor_firstname` AS `coms_proctor_firstname`,
+        `coms_proctor`.`coms_proctor_lastname` AS `coms_proctor_lastname`
+    FROM
+        ((`coms_training_organisation`
+        JOIN `coms_training_organisation_proctor` ON ((`coms_training_organisation_proctor`.`coms_training_organisation_id` = `coms_training_organisation`.`coms_training_organisation_id`)))
+        JOIN `coms_proctor` ON ((`coms_training_organisation_proctor`.`coms_proctor_id` = `coms_proctor`.`coms_proctor_id`)))
