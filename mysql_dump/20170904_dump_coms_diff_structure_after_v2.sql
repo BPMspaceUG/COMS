@@ -160,5 +160,17 @@ EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 END
 
+-----------------------------
+
+CREATE 
+VIEW `v_csvexport_trainingorg_exam` AS
+    SELECT 
+        `coms_training_organisation`.`coms_training_organisation_id` AS `coms_training_organisation_id`,
+        `coms_exam`.`coms_exam_id` AS `coms_exam_id`,
+        `coms_exam`.`coms_exam_name` AS `coms_exam_name`
+    FROM
+        ((`coms_training_organisation`
+        JOIN `coms_trainingsorganisation_exam` ON ((`coms_trainingsorganisation_exam`.`coms_trainingsorganisation_id` = `coms_training_organisation`.`coms_training_organisation_id`)))
+        JOIN `coms_exam` ON ((`coms_trainingsorganisation_exam`.`coms_exam_id` = `coms_exam`.`coms_exam_id`)))
 
 
