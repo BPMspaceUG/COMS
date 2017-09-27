@@ -218,3 +218,7 @@ VIEW `v_csvexport_trainingorg_proctor` AS
         ((`coms_training_organisation`
         JOIN `coms_training_organisation_proctor` ON ((`coms_training_organisation_proctor`.`coms_training_organisation_id` = `coms_training_organisation`.`coms_training_organisation_id`)))
         JOIN `coms_proctor` ON ((`coms_training_organisation_proctor`.`coms_proctor_id` = `coms_proctor`.`coms_proctor_id`)))
+
+------------------- Create new row in certificates
+ALTER TABLE `bpmspace_coms_v1`.`coms_certificate` 
+ADD COLUMN `coms_certificate_intro` LONGTEXT NULL DEFAULT NULL AFTER `coms_certificate_intro`;
