@@ -99,7 +99,7 @@ CREATE VIEW `v_coms_participant__Exam_Event` AS
             AND (`ST2`.`state_id` = `EE`.`state_id`)
             AND (`DT`.`coms_delivery_type_id` = `EE`.`coms_delivery_type_id`)
             AND (`TRO`.`coms_training_organisation_id` = `EE`.`coms_training_org_id`)
-            AND (`TR`.`coms_trainer_id` = `EE`.`coms_trainer_id`))
+            AND (`TR`.`coms_trainer_id` = `EE`.`coms_trainer_id`));
 	    
 CREATE VIEW `v_coms_datasheet_exam_event` AS
     SELECT 
@@ -124,41 +124,15 @@ CREATE VIEW `v_coms_datasheet_exam_event` AS
         `coms_participant_exam_event`.`coms_participant_info` AS `coms_participant_info`
     FROM
         (`v_coms_participant__id__email`
-        JOIN `coms_participant_exam_event` ON ((`v_coms_participant__id__email`.`coms_participant_id` = `coms_participant_exam_event`.`coms_participant_id`)))
+        JOIN `coms_participant_exam_event` ON ((`v_coms_participant__id__email`.`coms_participant_id` = `coms_participant_exam_event`.`coms_participant_id`)));
 
 
 
 ALTER TABLE `coms_training_organisation` 
 ADD COLUMN `coms_training_organisation_passwd_hash` VARCHAR(512) NULL AFTER `coms_training_organisation_id_md5`;
+ALTER TABLE `coms_training_organisation` 
 ADD COLUMN `coms_training_organisation_e-mail` VARCHAR(100) NULL ;
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `csvexport`(IN table_s CHAR(255), IN table_n CHAR(255), IN outfile_path CHAR(255))
-BEGIN
-SET @table_schema = table_s;
-SET @table_n = table_n;
-SET @outfile_path = outfile_path;
-
-SET @col_names = (
-SELECT GROUP_CONCAT(QUOTE(column_name)) AS columns
-FROM information_schema.columns
-WHERE table_schema = @table_schema
-AND table_name = @table_n);
-
-SET @cols = CONCAT('(SELECT ', @col_names, ')');
-
-SET @query = CONCAT('(SELECT * FROM ', @table_schema, '.', @table_n,
-' INTO OUTFILE \'',@outfile_path,'/',@table_n,'.csv\'
-FIELDS ENCLOSED BY \'\\\'\' TERMINATED BY \'\t\' ESCAPED BY \'\'
-LINES TERMINATED BY \'\n\')');
-
-/* Concatenates column names to query */
-SET @sql = CONCAT(@cols, ' UNION ALL ', @query);
-
-
-PREPARE stmt FROM @sql;
-EXECUTE stmt;
-DEALLOCATE PREPARE stmt;
-END
 
 -----------------------------
 
@@ -171,7 +145,7 @@ VIEW `v_csvexport_trainingorg_exam` AS
     FROM
         ((`coms_training_organisation`
         JOIN `coms_trainingsorganisation_exam` ON ((`coms_trainingsorganisation_exam`.`coms_trainingsorganisation_id` = `coms_training_organisation`.`coms_training_organisation_id`)))
-        JOIN `coms_exam` ON ((`coms_trainingsorganisation_exam`.`coms_exam_id` = `coms_exam`.`coms_exam_id`)))
+        JOIN `coms_exam` ON ((`coms_trainingsorganisation_exam`.`coms_exam_id` = `coms_exam`.`coms_exam_id`)));
 
 
 ------------------------------------
@@ -186,7 +160,7 @@ VIEW `v_csvexport_trainingorg_trainer` AS
     FROM
         ((`coms_training_organisation`
         JOIN `coms_training_organisation_trainer` ON ((`coms_training_organisation_trainer`.`coms_training_organisation_id` = `coms_training_organisation`.`coms_training_organisation_id`)))
-        JOIN `coms_trainer` ON ((`coms_training_organisation_trainer`.`coms_trainer_id` = `coms_trainer`.`coms_trainer_id`)))
+        JOIN `coms_trainer` ON ((`coms_training_organisation_trainer`.`coms_trainer_id` = `coms_trainer`.`coms_trainer_id`)));
 	
 	
 ---------------
@@ -203,7 +177,7 @@ VIEW `v_csvexport_trainer_exam` AS
     FROM
         ((`coms_trainer`
         JOIN `coms_trainer_exam` ON ((`coms_trainer_exam`.`coms_trainer_id` = `coms_trainer`.`coms_trainer_id`)))
-        JOIN `coms_exam` ON ((`coms_trainer_exam`.`coms_exam_id` = `coms_exam`.`coms_exam_id`)))
+        JOIN `coms_exam` ON ((`coms_trainer_exam`.`coms_exam_id` = `coms_exam`.`coms_exam_id`)));
 	
 -----------------------
 
@@ -217,7 +191,7 @@ VIEW `v_csvexport_trainingorg_proctor` AS
     FROM
         ((`coms_training_organisation`
         JOIN `coms_training_organisation_proctor` ON ((`coms_training_organisation_proctor`.`coms_training_organisation_id` = `coms_training_organisation`.`coms_training_organisation_id`)))
-        JOIN `coms_proctor` ON ((`coms_training_organisation_proctor`.`coms_proctor_id` = `coms_proctor`.`coms_proctor_id`)))
+        JOIN `coms_proctor` ON ((`coms_training_organisation_proctor`.`coms_proctor_id` = `coms_proctor`.`coms_proctor_id`)));
 
 ------------------- Create new row in certificates
 ALTER TABLE `coms_certificate` 
