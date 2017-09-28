@@ -1,3 +1,42 @@
+/*USE `bpmspace_coms_v1`;
+CREATE 
+     OR REPLACE ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `v_certificate_participant` AS
+    SELECT DISTINCT
+        `CePa`.`coms_certificate_participant_id` AS `coms_certificate_participant_id`,
+        `CePa`.`coms_certificate_participant_date` AS `coms_certificate_participant_date`,
+        `CePa`.`coms_certificate_participant_id_base32` AS `coms_certificate_participant_id_base32`,
+        `CePa`.`coms_certificate_id` AS `coms_certificate_id`,
+        `Ce`.`coms_certificate_name` AS `coms_certificate_name`,
+        `Ce`.`coms_certificate_description` AS `coms_certificate_description`,
+        `Ce`.`coms_certificate_intro` AS `coms_certificate_intro`,
+        `Ce`.`coms_certificate_type_id` AS `coms_certificate_type_id`,
+        `CT`.`coms_certificate_type_description`,
+        `Pa`.`coms_participant_id` AS `coms_participant_id`,
+        `PaId`.`coms_participant_base32` AS `coms_participant_base32`,
+        `PaId`.`coms_participant_matriculation` AS `coms_participant_matriculation`,
+        `Pa`.`coms_participant_gender` AS `coms_participant_gender`,
+        `Pa`.`coms_participant_firstname` AS `coms_participant_firstname`,
+        `Pa`.`coms_participant_lastname` AS `coms_participant_lastname`,
+        `Pa`.`coms_participant_dateofbirth` AS `coms_participant_dateofbirth`,
+        `Pa`.`coms_participant_placeofbirth` AS `coms_participant_placeofbirth`,
+        `Pa`.`coms_participant_birthcountry` AS `coms_participant_birthcountry`
+    FROM
+        ((((`coms_certificate` `Ce`
+        JOIN `coms_certificate_participant` `CePa`)
+        JOIN `coms_participant` `Pa`)
+        JOIN `coms_participant_identifier` `PaId`)
+        JOIN `coms_certificate_type` `CT`)
+    WHERE
+        ((`Ce`.`coms_certificate_id` = `CePa`.`coms_certificate_id`)
+            AND (`CePa`.`coms_participant_id` = `Pa`.`coms_participant_id`)
+            AND (`PaId`.`coms_participant_id` = `Pa`.`coms_participant_id`)
+            AND (`CT`.`coms_certificate_type_id` = `Ce`.`coms_certificate_type_id`)
+            AND (`PaId`.`coms_participant_id` = `Pa`.`coms_participant_id`));
+*/
+
 /*
 USE `bpmspace_coms_v1`;
 CREATE 
