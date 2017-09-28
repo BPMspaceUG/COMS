@@ -50,7 +50,7 @@ VIEW `v_exam_event__exam__trainingorg__trainer` AS
             AND (`ExEv`.`coms_training_org_id` = `TrOr`.`coms_training_organisation_id`)
             AND (`ExEv`.`coms_trainer_id` = `Tr`.`coms_trainer_id`)
             AND (`Ex`.`coms_exam_language_id` = `Lg`.`coms_language_id`)
-            AND (`ExEv`.`coms_proctor_id` = `Pr`.`coms_proctor_id`))
+            AND (`ExEv`.`coms_proctor_id` = `Pr`.`coms_proctor_id`));
 	        
 ALTER TABLE `coms_exam_event` 
 CHANGE COLUMN `coms_exam_event_location` `coms_exam_event_location` VARCHAR(256) NULL DEFAULT NULL ;
