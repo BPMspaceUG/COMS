@@ -52,7 +52,7 @@ VIEW `v_exam_event__exam__trainingorg__trainer` AS
             AND (`Ex`.`coms_exam_language_id` = `Lg`.`coms_language_id`)
             AND (`ExEv`.`coms_proctor_id` = `Pr`.`coms_proctor_id`))
 	        
-ALTER TABLE `bpmspace_coms_v1`.`coms_exam_event` 
+ALTER TABLE `coms_exam_event` 
 CHANGE COLUMN `coms_exam_event_location` `coms_exam_event_location` VARCHAR(256) NULL DEFAULT NULL ;
    
 CREATE VIEW `v_coms_participant__Exam_Event` AS
@@ -128,7 +128,7 @@ CREATE VIEW `v_coms_datasheet_exam_event` AS
 
 
 
-ALTER TABLE `bpmspace_coms_v1`.`coms_training_organisation` 
+ALTER TABLE `coms_training_organisation` 
 ADD COLUMN `coms_training_organisation_passwd_hash` VARCHAR(512) NULL AFTER `coms_training_organisation_id_md5`;
 ADD COLUMN `coms_training_organisation_e-mail` VARCHAR(100) NULL ;
 
@@ -220,5 +220,93 @@ VIEW `v_csvexport_trainingorg_proctor` AS
         JOIN `coms_proctor` ON ((`coms_training_organisation_proctor`.`coms_proctor_id` = `coms_proctor`.`coms_proctor_id`)))
 
 ------------------- Create new row in certificates
-ALTER TABLE `bpmspace_coms_v1`.`coms_certificate` 
+ALTER TABLE `coms_certificate` 
 ADD COLUMN `coms_certificate_intro` LONGTEXT NULL DEFAULT NULL AFTER `coms_certificate_intro`;
+
+  
+--------------- modify table with coloumn state_id - Bigint(20) and create Foreign KEY
+
+ALTER TABLE `coms_certificate` 
+ADD COLUMN `state_id` BIGINT(20) NULL ;
+
+ALTER TABLE `coms_certificate` 
+ADD CONSTRAINT `state_id_fk01`
+  FOREIGN KEY (`state_id`)
+  REFERENCES `state` (`state_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+  
+ALTER TABLE `coms_trainer` 
+ADD COLUMN `state_id` BIGINT(20) NULL ;
+
+ALTER TABLE `coms_trainer` 
+ADD CONSTRAINT `state_id_fk02`
+  FOREIGN KEY (`state_id`)
+  REFERENCES `state` (`state_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `coms_trainer_exam` 
+ADD COLUMN `state_id` BIGINT(20) NULL ;
+
+ALTER TABLE `coms_trainer_exam` 
+ADD CONSTRAINT `state_id_fk03`
+  FOREIGN KEY (`state_id`)
+  REFERENCES `state` (`state_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+  ALTER TABLE `coms_training_organisation_trainer` 
+ADD COLUMN `state_id` BIGINT(20) NULL ;
+
+ALTER TABLE `coms_training_organisation_trainer` 
+ADD CONSTRAINT `state_id_fk04`
+  FOREIGN KEY (`state_id`)
+  REFERENCES `state` (`state_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+  ALTER TABLE `coms_proctor` 
+ADD COLUMN `state_id` BIGINT(20) NULL ;
+
+ALTER TABLE `coms_proctor` 
+ADD CONSTRAINT `state_id_fk05`
+  FOREIGN KEY (`state_id`)
+  REFERENCES `state` (`state_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+   ALTER TABLE `coms_certificate_participant` 
+ADD COLUMN `state_id` BIGINT(20) NULL ;
+
+ALTER TABLE `coms_certificate_participant` 
+ADD CONSTRAINT `state_id_fk06`
+  FOREIGN KEY (`state_id`)
+  REFERENCES `state` (`state_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+ 
+  
+ALTER TABLE `coms_training_organisation` 
+ADD COLUMN `state_id` BIGINT(20) NULL ;
+
+ALTER TABLE `coms_training_organisation` 
+ADD CONSTRAINT `state_id_fk07`
+  FOREIGN KEY (`state_id`)
+  REFERENCES `state` (`state_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+  
+ ALTER TABLE `coms_trainingsorganisation_exam` 
+ADD COLUMN `state_id` BIGINT(20) NULL ;
+
+ALTER TABLE `coms_trainingsorganisation_exam` 
+ADD CONSTRAINT `state_id_fk08`
+  FOREIGN KEY (`state_id`)
+  REFERENCES `state` (`state_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+  
+  
+  

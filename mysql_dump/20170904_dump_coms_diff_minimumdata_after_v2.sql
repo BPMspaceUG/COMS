@@ -56,3 +56,197 @@ INSERT INTO `state_rules` (`state_rules_id`,`state_id_FROM`,`state_id_TO`,`trans
 INSERT INTO `state_rules` (`state_rules_id`,`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (24,35,39,NULL);
 INSERT INTO `state_rules` (`state_rules_id`,`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (25,36,39,NULL);
 INSERT INTO `state_rules` (`state_rules_id`,`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (26,39,39,NULL);
+
+------------- new state and state crossing
+
+SET @table_n = "coms_trainer";
+
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('new',NULL,@table_n);
+SET @STATE_NEW = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('active',NULL,NULL);
+SET @STATE_ACT = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('inactive',NULL,NULL);
+SET @STATE_INA = LAST_INSERT_ID();
+
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_NEW,@STATE_NEW,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_NEW,@STATE_ACT,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_ACT,@STATE_ACT,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_ACT,@STATE_INA,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_INA,@STATE_INA,NULL);
+
+
+SET @table_n = "coms_trainer_exam";
+
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('new',NULL,@table_n);
+SET @STATE_NEW = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('active',NULL,NULL);
+SET @STATE_ACT = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('inactive',NULL,NULL);
+SET @STATE_INA = LAST_INSERT_ID();
+
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_NEW,@STATE_NEW,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_NEW,@STATE_ACT,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_ACT,@STATE_ACT,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_ACT,@STATE_INA,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_INA,@STATE_INA,NULL);
+
+SET @table_n = "coms_training_organisation_trainer";
+
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('new',NULL,@table_n);
+SET @STATE_NEW = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('active',NULL,NULL);
+SET @STATE_ACT = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('inactive',NULL,NULL);
+SET @STATE_INA = LAST_INSERT_ID();
+
+
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_NEW,@STATE_NEW,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_NEW,@STATE_ACT,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_ACT,@STATE_ACT,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_ACT,@STATE_INA,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_INA,@STATE_INA,NULL);
+
+
+SET @table_n = "coms_proctor";
+
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('new',NULL,@table_n);
+SET @STATE_NEW = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('active',NULL,NULL);
+SET @STATE_ACT = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('inactive',NULL,NULL);
+SET @STATE_INA = LAST_INSERT_ID();
+
+
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_NEW,@STATE_NEW,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_NEW,@STATE_ACT,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_ACT,@STATE_ACT,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_ACT,@STATE_INA,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_INA,@STATE_INA,NULL);
+
+SET @table_n = "coms_training_organisation_proctor";
+
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('new',NULL,@table_n);
+SET @STATE_NEW = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('active',NULL,NULL);
+SET @STATE_ACT = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('inactive',NULL,NULL);
+SET @STATE_INA = LAST_INSERT_ID();
+
+
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_NEW,@STATE_NEW,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_NEW,@STATE_ACT,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_ACT,@STATE_ACT,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_ACT,@STATE_INA,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_INA,@STATE_INA,NULL);
+
+SET @table_n = "coms_certificate";
+
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('new',NULL,@table_n);
+SET @STATE_NEW = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('active',NULL,NULL);
+SET @STATE_ACT = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('inactive',NULL,NULL);
+SET @STATE_INA = LAST_INSERT_ID();
+
+
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_NEW,@STATE_NEW,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_NEW,@STATE_ACT,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_ACT,@STATE_ACT,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_ACT,@STATE_INA,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_INA,@STATE_INA,NULL);
+
+
+SET @table_n = "`coms_training_organisation`";
+
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('registered (new)',NULL,@table_n);
+SET @STATE_01 = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('classified',NULL,NULL);
+SET @STATE_02 = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('offer accepted',NULL,NULL);
+SET @STATE_03 = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('offer declined',NULL,NULL);
+SET @STATE_04 = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('temp. accredited',NULL,NULL);
+SET @STATE_05 = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('document audit succesfull',NULL,NULL);
+SET @STATE_06 = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('init audit succesfull',NULL,NULL);
+SET @STATE_07 = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('audit succesfull',NULL,NULL);
+SET @STATE_08 = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('accredited',NULL,NULL);
+SET @STATE_09 = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('accredited withdrawn',NULL,NULL);
+SET @STATE_10 = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('tmp accredited withdrawn',NULL,NULL);
+SET @STATE_11 = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('canceled',NULL,NULL);
+SET @STATE_12 = LAST_INSERT_ID();
+
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_01,@STATE_01,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_01,@STATE_02,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_01,@STATE_12,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_02,@STATE_02,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_02,@STATE_12,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_02,@STATE_03,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_02,@STATE_04,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_03,@STATE_03,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_03,@STATE_05,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_03,@STATE_06,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_03,@STATE_12,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_04,@STATE_04,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_05,@STATE_05,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_05,@STATE_08,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_05,@STATE_11,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_06,@STATE_06,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_06,@STATE_07,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_06,@STATE_12,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_07,@STATE_07,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_07,@STATE_09,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_07,@STATE_12,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_08,@STATE_08,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_08,@STATE_09,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_09,@STATE_09,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_09,@STATE_08,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_09,@STATE_11,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_09,@STATE_10,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_10,@STATE_10,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_11,@STATE_11,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_11,@STATE_10,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_11,@STATE_09,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_11,@STATE_08,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_12,@STATE_12,NULL);
+
+
+SET @table_n = "coms_trainingsorganisation_exam";
+
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('new',NULL,@table_n);
+SET @STATE_NEW = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('active',NULL,NULL);
+SET @STATE_ACT = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('inactive',NULL,NULL);
+SET @STATE_INA = LAST_INSERT_ID();
+
+
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_NEW,@STATE_NEW,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_NEW,@STATE_ACT,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_ACT,@STATE_ACT,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_ACT,@STATE_INA,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_INA,@STATE_INA,NULL);
+
+SET @table_n = "coms_certificate_participant";
+
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('new',NULL,@table_n);
+SET @STATE_NEW = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('active',NULL,NULL);
+SET @STATE_ACT = LAST_INSERT_ID();
+INSERT INTO `state` (`name`,`form_data`,`tablename`) VALUES ('inactive',NULL,NULL);
+SET @STATE_INA = LAST_INSERT_ID();
+
+
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_NEW,@STATE_NEW,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_NEW,@STATE_ACT,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_ACT,@STATE_ACT,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_ACT,@STATE_INA,NULL);
+INSERT INTO `state_rules` (`state_id_FROM`,`state_id_TO`,`transition_script`) VALUES (@STATE_INA,@STATE_INA,NULL);
+
