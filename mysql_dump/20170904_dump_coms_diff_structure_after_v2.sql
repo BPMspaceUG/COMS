@@ -390,6 +390,35 @@ ADD CONSTRAINT `state_id_fk08`
   REFERENCES `state` (`state_id`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
-  
-  
+
+----------------------- procedure to add participant and book hin on an event
+
+ CREATE  PROCEDURE `part_event`(IN Lastname CHAR(255), IN firstname CHAR(255), IN Gender CHAR(255), IN Email CHAR(255), IN DateOfBirth CHAR(255), IN CityOfBirth CHAR(255), IN CountryOfBirth CHAR(255), IN event CHAR(255))
+BEGIN
+
+set @LASTNAME = Lastname;
+set @FIRSTNAME = firstname;
+set @GENDER = Gender;
+set @EMAIL = Email;
+set @BIRTHDATE = DateOfBirth;
+set @BIRTHPLACE = CityOfBirth;
+set @BIRTHCOUNTRY = CountryOfBirth;
+set @EXAM_EVENT_ID = event;
+
+INSERT INTO .`coms_participant` (`coms_participant_gender`, `coms_participant_lastname`, `coms_participant_firstname`, `coms_participant_public`, `coms_participant_placeofbirth`, `coms_participant_dateofbirth`,  `coms_participant_birthcountry`) VALUES (@GENDER, @LASTNAME, @FIRSTNAME, '0', @BIRTHPLACE, @BIRTHDATE, @BIRTHCOUNTRY );
+
+SET @PARTICIPANTID = LAST_INSERT_ID();
+
+INSERT INTO `coms_participant_identifier` (`coms_participant_id`, `coms_participant_md5`) VALUES (@PARTICIPANTID, md5(@PARTICIPANTID));
+
+UPDATE `coms_participant_identifier` set `coms_participant_matriculation` = concat(`coms_participant_id`,SUBSTRING(CONV(SUBSTRING(coms_participant_md5,1,5),16,10),1,3)) where coms_participant_id = @PARTICIPANTID;
+
+UPDATE `coms_participant_identifier` set `coms_participant_base32` = LPAD(CONV(`coms_participant_matriculation`,10,32),8,'0') where coms_participant_id = @PARTICIPANTID;
+
+INSERT INTO `coms_participant_email` (`coms_participant_id`, `coms_participant_emailadresss`) VALUES (@PARTICIPANTID, @EMAIL);
+
+INSERT INTO coms_participant_exam_event (coms_participant_id, coms_exam_event_id, state_id) VALUES (@PARTICIPANTID, @EXAM_EVENT_ID, '27');
+
+
+END
   
