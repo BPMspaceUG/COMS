@@ -100,4 +100,8 @@ SET @PARTICIPANTID = PART_ID;
 INSERT INTO coms_participant_exam_event (coms_participant_id, coms_exam_event_id, state_id) VALUES (@PARTICIPANTID, @EXAM_EVENT_ID, '27');
 END
 
+-- Add location for the background images of each certificate.
+ALTER TABLE `bpmspace_coms_v3`.`coms_certificate_type` 
+ADD COLUMN `coms_certificate_file` TINYTEXT NULL DEFAULT NULL AFTER `coms_certificate_type_description`;
+
 
