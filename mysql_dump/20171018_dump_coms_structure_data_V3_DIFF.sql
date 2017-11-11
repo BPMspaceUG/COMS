@@ -104,4 +104,6 @@ END
 ALTER TABLE `bpmspace_coms_v3`.`coms_certificate_type` 
 ADD COLUMN `coms_certificate_file` TINYTEXT NULL DEFAULT NULL AFTER `coms_certificate_type_description`;
 
+-- rename state
+SELECT * FROM state where statemachine_id = '2';
 
