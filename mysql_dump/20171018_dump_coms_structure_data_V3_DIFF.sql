@@ -1,3 +1,5 @@
+USE `bpmspace_coms_v3`;
+
 ALTER TABLE `state` 
 ADD COLUMN `entrypoint` TINYINT NULL DEFAULT 0 AFTER `tablename`,
 ADD COLUMN `statemachine_id` BIGINT(20) NOT NULL AFTER `entrypoint`;
@@ -107,3 +109,45 @@ ADD COLUMN `coms_certificate_file` TINYTEXT NULL DEFAULT NULL AFTER `coms_certif
 -- rename state
 SELECT * FROM state where statemachine_id = '2';
 
+-- upadet view and minimum date
+CREATE 
+     OR REPLACE ALGORITHM = UNDEFINED 
+VIEW `v_certificate_participant` AS
+    SELECT DISTINCT
+        `CePa`.`coms_certificate_participant_id` AS `coms_certificate_participant_id`,
+        `CePa`.`coms_certificate_participant_date` AS `coms_certificate_participant_date`,
+        `CePa`.`coms_certificate_participant_id_base32` AS `coms_certificate_participant_id_base32`,
+        `ST`.`name` AS `state`,
+        `CePa`.`coms_certificate_id` AS `coms_certificate_id`,
+        `Ce`.`coms_certificate_name` AS `coms_certificate_name`,
+        `Ce`.`coms_certificate_description` AS `coms_certificate_description`,
+        `Ce`.`coms_certificate_intro` AS `coms_certificate_intro`,
+        `Ce`.`coms_certificate_type_id` AS `coms_certificate_type_id`,
+        `CT`.`coms_certificate_type_description` AS `coms_certificate_type_description`,
+        `Pa`.`coms_participant_id` AS `coms_participant_id`,
+        `PaId`.`coms_participant_base32` AS `coms_participant_base32`,
+        `PaId`.`coms_participant_matriculation` AS `coms_participant_matriculation`,
+        `Pa`.`coms_participant_gender` AS `coms_participant_gender`,
+        `Pa`.`coms_participant_firstname` AS `coms_participant_firstname`,
+        `Pa`.`coms_participant_lastname` AS `coms_participant_lastname`,
+        `Pa`.`coms_participant_dateofbirth` AS `coms_participant_dateofbirth`,
+        `Pa`.`coms_participant_placeofbirth` AS `coms_participant_placeofbirth`,
+        `Pa`.`coms_participant_birthcountry` AS `coms_participant_birthcountry`,
+        `CePa`.`coms_certificate` AS `Certificate`
+    FROM
+        (((((`coms_certificate` `Ce`
+        JOIN `coms_certificate_participant` `CePa`)
+        JOIN `coms_participant` `Pa`)
+        JOIN `coms_participant_identifier` `PaId`)
+        JOIN `coms_certificate_type` `CT`)
+        JOIN `state` `ST`)
+    WHERE
+        ((`Ce`.`coms_certificate_id` = `CePa`.`coms_certificate_id`)
+            AND (`CePa`.`coms_participant_id` = `Pa`.`coms_participant_id`)
+            AND (`PaId`.`coms_participant_id` = `Pa`.`coms_participant_id`)
+            AND (`CT`.`coms_certificate_type_id` = `Ce`.`coms_certificate_type_id`)
+            AND (`PaId`.`coms_participant_id` = `Pa`.`coms_participant_id`)
+			AND (`CePa`.`state_id` = `ST`.`state_id`));
+
+			
+UPDATE `coms_certificate_participant` SET `state_id`='73' WHERE state_id IS NULL OR state_id = '';
