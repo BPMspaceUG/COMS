@@ -151,3 +151,75 @@ VIEW `v_certificate_participant` AS
 
 			
 UPDATE `coms_certificate_participant` SET `state_id`='73' WHERE state_id IS NULL OR state_id = '';
+
+DELIMITER $$
+CREATE  PROCEDURE `create_trainer`(IN ATO_ID CHAR(255), IN Lastname CHAR(255), IN firstname CHAR(255),  IN Email CHAR(255))
+BEGIN
+set @ATO_ID= ATO_ID;
+set @LASTNAME = Lastname;
+set @FIRSTNAME = firstname;
+set @EMAIL = Email;
+
+INSERT INTO `coms_trainer` (`coms_trainer_firstname`, `coms_trainer_lastname`) VALUES (@FIRSTNAME, @LASTNAME);
+
+set @TRAINER_ID = LAST_INSERT_ID();
+
+INSERT INTO `coms_trainer_email` (`coms_trainer_emailadresss`, `coms_trainer_id`) VALUES (@EMAIL, @TRAINER_ID);
+
+INSERT INTO `coms_training_organisation_trainer` (`coms_training_organisation_id`, `coms_trainer_id`) VALUES (@ATO_ID, @TRAINER_ID);
+
+UPDATE coms_trainer set coms_trainer_id_md5 = md5(coms_trainer_id) where coms_trainer_id = @TRAINER_ID;
+
+UPDATE coms_trainer set coms_trainer_3digit = SUBSTRING(CONV(SUBSTRING(coms_trainer_id_md5,1,5),16,10),1,3) where coms_trainer_id = @TRAINER_ID;
+
+UPDATE coms_trainer set coms_trainer_id_base32 = LPAD(CONV(concat(coms_trainer_id,coms_trainer_3digit),10,32),8,'0') where coms_trainer_id = @TRAINER_ID;
+
+END
+
+DROP procedure IF EXISTS `add_part_event`;
+
+
+CREATE  PROCEDURE `add_part_event`(IN PART_ID CHAR(255), IN EVENT_ID CHAR(255))
+BEGIN
+set @EXAM_EVENT_ID = EVENT_ID;
+SET @PARTICIPANTID = PART_ID;
+INSERT INTO coms_participant_exam_event (coms_participant_id, coms_exam_event_id, state_id) VALUES (@PARTICIPANTID, @EXAM_EVENT_ID, '27');
+END
+
+CREATE PROCEDURE `add_trainer_ato`(IN TRAINER_ID CHAR(255), IN ATO_ID CHAR(255))
+BEGIN
+set @TRAINER_ID = TRAINER_ID;
+SET @ATO_ID = ATO_ID;
+INSERT INTO `coms_training_organisation_trainer` (`coms_training_organisation_id`, `coms_trainer_id`, `state_id`) VALUES (@ATO_ID, @TRAINER_ID, '43');
+
+END
+
+CREATE PROCEDURE `add_proctor_ato`(IN PROCTOR_ID CHAR(255), IN ATO_ID CHAR(255))
+BEGIN
+set @PROCTOR_ID = PROCTOR_ID;
+SET @ATO_ID = ATO_ID;
+INSERT INTO `coms_training_organisation_proctor` (`coms_training_organisation_id`, `coms_proctor_id`, `state_id`) VALUES (@ATO_ID, @TRAINER_ID, '52');
+
+END
+
+CREATE PROCEDURE `add_trainerorg_exam`(IN TRAINERORG_ID CHAR(255), IN EXAM_ID CHAR(255))
+BEGIN
+set @TRAINERORG_ID = TRAINERORG_ID;
+SET @EXAM_ID = EXAM_ID;
+
+INSERT INTO `coms_trainingsorganisation_exam` (`coms_trainingsorganisation_id`, `coms_exam_id`) VALUES (@TRAINERORG_ID, @TRAINER_ID);
+
+END
+
+CREATE PROCEDURE `add_trainer_exam`(IN TRAINER_ID CHAR(255), IN EXAM_ID CHAR(255))
+BEGIN
+set @TRAINER_ID = TRAINERORG_ID;
+SET @EXAM_ID = EXAM_ID;
+
+INSERT INTO `coms_trainer_exam` (`coms_trainer_id`, `coms_exam_id`) VALUES (@TRAINER_ID, @EXAM_ID);
+
+END
+
+DELIMITER ;
+
+DROP procedure IF EXISTS `book_part_event`;
