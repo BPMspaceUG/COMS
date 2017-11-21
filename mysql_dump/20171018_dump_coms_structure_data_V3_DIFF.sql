@@ -213,7 +213,7 @@ END
 
 CREATE PROCEDURE `add_trainer_exam`(IN TRAINER_ID CHAR(255), IN EXAM_ID CHAR(255))
 BEGIN
-set @TRAINER_ID = TRAINERORG_ID;
+set @TRAINER_ID = TRAINER_ID;
 SET @EXAM_ID = EXAM_ID;
 
 INSERT INTO `coms_trainer_exam` (`coms_trainer_id`, `coms_exam_id`) VALUES (@TRAINER_ID, @EXAM_ID);
