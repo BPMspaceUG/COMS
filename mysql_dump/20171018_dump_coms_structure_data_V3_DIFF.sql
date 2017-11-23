@@ -223,3 +223,16 @@ END
 DELIMITER ;
 
 DROP procedure IF EXISTS `book_part_event`;
+
+-- State changes
+
+--State
+INSERT INTO `bpmspace_coms_v3`.`state` (`name`, `entrypoint`, `statemachine_id`) VALUES ('canceled', '0', '2');
+INSERT INTO `bpmspace_coms_v3`.`state` (`name`, `entrypoint`, `statemachine_id`) VALUES ('canceled', '0', '5');
+--State rules
+INSERT INTO `bpmspace_coms_v3`.`state_rules` (`state_id_FROM`, `state_id_TO`) VALUES ('73', '84');
+INSERT INTO `bpmspace_coms_v3`.`state_rules` (`state_id_FROM`, `state_id_TO`) VALUES ('82', '84');
+INSERT INTO `bpmspace_coms_v3`.`state_rules` (`state_id_FROM`, `state_id_TO`) VALUES ('27', '85');
+INSERT INTO `bpmspace_coms_v3`.`state_rules` (`state_id_FROM`, `state_id_TO`) VALUES ('28', '85');
+INSERT INTO `bpmspace_coms_v3`.`state_rules` (`state_id_FROM`, `state_id_TO`) VALUES ('30', '85');
+
