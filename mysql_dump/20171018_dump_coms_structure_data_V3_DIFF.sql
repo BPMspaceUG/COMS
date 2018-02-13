@@ -236,3 +236,27 @@ INSERT INTO `bpmspace_coms_v3`.`state_rules` (`state_id_FROM`, `state_id_TO`) VA
 INSERT INTO `bpmspace_coms_v3`.`state_rules` (`state_id_FROM`, `state_id_TO`) VALUES ('28', '85');
 INSERT INTO `bpmspace_coms_v3`.`state_rules` (`state_id_FROM`, `state_id_TO`) VALUES ('30', '85');
 
+SET foreign_key_checks = 0;
+ALTER TABLE `coms_exam` 
+CHANGE COLUMN `coms_exam_id` `coms_exam_id` BIGINT(20) NOT NULL AUTO_INCREMENT ;
+SET foreign_key_checks = 1;
+
+CREATE PROCEDURE `create_trainerorg`(IN ATO_NAME CHAR(255), IN ATO_NAME_SHORT CHAR(255), IN ATO_PASSWORD CHAR(255), IN ATO_MAIL CHAR(255))
+BEGIN
+set @ATO_NAME = ATO_NAME;
+set @ATO_NAME_SHORT = ATO_NAME_SHORT;
+SET @ATO_PASSWORD = ATO_PASSWORD;
+SET @ATO_MAIL = ATO_MAIL;
+
+ 
+INSERT INTO coms_training_organisation(`coms_training_organisation_name`, `coms_training_organisation_short_namel`, `coms_training_organisation_email`,`state_id`) VALUES (@ATO_NAME, @ATO_NAME_SHORT, @ATO_MAIL, "58");
+
+set @ATO_ID = LAST_INSERT_ID();
+	
+    UPDATE coms_training_organisation set coms_training_organisation_id_md5 = md5(coms_training_organisation_id) where coms_training_organisation_id = @ATO_ID ;
+    UPDATE coms_training_organisation set coms_training_organisation_3digit = SUBSTRING(CONV(SUBSTRING(coms_training_organisation_id_md5,1,5),16,10),1,3) where coms_training_organisation_id = @ATO_ID ;
+    UPDATE coms_training_organisation set coms_training_organisation_id_base32 = LPAD(CONV(concat(coms_training_organisation_id,coms_training_organisation_3digit),10,32),8,'0') where coms_training_organisation_id = @ATO_ID ;
+
+UPDATE coms_training_organisation set coms_training_organisation_passwd_hash= SHA2(concat(@ATO_PASSWORD,coms_training_organisation_id_md5), 512)where  coms_training_organisation_id = @ATO_ID;
+
+END
