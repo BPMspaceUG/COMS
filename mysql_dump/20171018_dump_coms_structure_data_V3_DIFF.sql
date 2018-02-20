@@ -261,5 +261,5 @@ UPDATE coms_training_organisation set coms_training_organisation_passwd_hash= SH
 
 END
 
-ALTER TABLE `bpmspace_coms_v1`.`coms_participant` 
+ALTER TABLE `coms_participant` 
 ADD COLUMN `coms_participant_EXTERNAL_id` VARCHAR(265) NULL AFTER `coms_participant_LIAM_id`;
