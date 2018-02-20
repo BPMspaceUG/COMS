@@ -260,3 +260,6 @@ set @ATO_ID = LAST_INSERT_ID();
 UPDATE coms_training_organisation set coms_training_organisation_passwd_hash= SHA2(concat(@ATO_PASSWORD,coms_training_organisation_id_md5), 512)where  coms_training_organisation_id = @ATO_ID;
 
 END
+
+ALTER TABLE `bpmspace_coms_v1`.`coms_participant` 
+ADD COLUMN `coms_participant_EXTERNAL_id` VARCHAR(265) NULL AFTER `coms_participant_LIAM_id`;
