@@ -263,3 +263,30 @@ END
 
 ALTER TABLE `coms_participant` 
 ADD COLUMN `coms_participant_EXTERNAL_id` VARCHAR(265) NULL AFTER `coms_participant_LIAM_id`;
+
+USE `bpmspace_coms_v1`;
+DROP procedure IF EXISTS `create_cert_part`;
+
+DELIMITER $$
+CREATE PROCEDURE `create_cert_part`(IN PART_ID CHAR(255), IN CERT_ID CHAR(255),IN CERTDATE CHAR(255))
+BEGIN
+
+set @Date = CERTDATE; 
+set @Cert_ID = CERT_ID;
+set @Participant_ID = PART_ID;
+
+
+INSERT INTO `coms_certificate_participant` (`coms_certificate_participant_date`, `coms_certificate_id`, `coms_participant_id`, `state_id`) VALUES (@Date, @Cert_ID, @Participant_ID, "73");
+
+set @coms_certificate_participant_ID = LAST_INSERT_ID();
+
+UPDATE coms_certificate_participant set coms_certificate_participant_id_md5 = md5(coms_certificate_participant_id) where coms_certificate_participant_id = @coms_certificate_participant_ID;
+
+UPDATE `coms_certificate_participant` set coms_certificate_participant_3digit = SUBSTRING(CONV(SUBSTRING(coms_certificate_participant_id_md5,1,5),16,10),1,3) where coms_certificate_participant_id = @coms_certificate_participant_ID;
+
+UPDATE `coms_certificate_participant` set coms_certificate_participant_id_base32 = LPAD(CONV(concat(coms_certificate_participant_id,coms_certificate_participant_3digit),10,32),8,'0') where coms_certificate_participant_id = @coms_certificate_participant_ID;
+
+END$$
+
+DELIMITER ;
+
