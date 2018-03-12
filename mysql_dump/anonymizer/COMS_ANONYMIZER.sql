@@ -1,9 +1,4 @@
-
-
-
-
-
-
+use bpmspace_coms_v1;
 DELIMITER //
 DROP FUNCTION IF EXISTS str_random_lipsum;
 //
@@ -315,45 +310,45 @@ select generate_fname() as FirstName, generate_fname() as LastName;
 SET SQL_SAFE_UPDATES = 0;
 
 
-UPDATE `bpmspace_coms_v3`.`coms_certificate` SET `coms_certificate_name`= concat('BPMspace ',coms_certificate_id_base32), `coms_certificate_description`=str_random_lipsum(10,5,0), `coms_certificate_intro`=str_random_lipsum(50,20,0) WHERE TRUE;
+UPDATE `coms_certificate` SET `coms_certificate_name`= concat('BPMspace ',coms_certificate_id_base32), `coms_certificate_description`=str_random_lipsum(10,5,0), `coms_certificate_intro`=str_random_lipsum(50,20,0) WHERE TRUE;
 
 
-UPDATE `bpmspace_coms_v3`.`coms_certificate_participant` SET `coms_certificate_participant_date`=DATE(FROM_UNIXTIME(UNIX_TIMESTAMP('2010-04-30 14:53:27') + FLOOR(0 + (RAND() * 63072000)))) WHERE TRUE;
-UPDATE `bpmspace_coms_v3`.`coms_certificate_participant` SET `coms_certificate_participant_id`= FLOOR(RAND( )*100000) WHERE TRUE;
+UPDATE `coms_certificate_participant` SET `coms_certificate_participant_date`=DATE(FROM_UNIXTIME(UNIX_TIMESTAMP('2010-04-30 14:53:27') + FLOOR(0 + (RAND() * 63072000)))) WHERE TRUE;
+UPDATE `coms_certificate_participant` SET `coms_certificate_participant_id`= FLOOR(RAND( )*100000) WHERE TRUE;
 UPDATE coms_certificate_participant set coms_certificate_participant_id_md5 = md5(coms_certificate_participant_id) where TRUE;
 UPDATE `coms_certificate_participant` set coms_certificate_participant_3digit = SUBSTRING(CONV(SUBSTRING(coms_certificate_participant_id_md5,1,5),16,10),1,3) where TRUE;
 UPDATE `coms_certificate_participant` set coms_certificate_participant_id_base32 = LPAD(CONV(concat(coms_certificate_participant_id,coms_certificate_participant_3digit),10,32),8,'0') where TRUE;
 
-UPDATE `bpmspace_coms_v3`.`coms_certificate_type` SET `coms_certificate_type_description`='CUSTOMER 1 role' WHERE `coms_certificate_type_id`='7';
-UPDATE `bpmspace_coms_v3`.`coms_certificate_type` SET `coms_certificate_type_description`='CUSTOMER 2 Exam' WHERE `coms_certificate_type_id`='8';
+UPDATE `coms_certificate_type` SET `coms_certificate_type_description`='CUSTOMER 1 role' WHERE `coms_certificate_type_id`='7';
+UPDATE `coms_certificate_type` SET `coms_certificate_type_description`='CUSTOMER 2 Exam' WHERE `coms_certificate_type_id`='8';
 
-UPDATE `bpmspace_coms_v3`.`coms_exam` SET `coms_exam_name`=concat('BPMspace EXAM ',coms_exam_id) WHERE TRUE ;
-
-
-
-
-UPDATE `bpmspace_coms_v3`.`coms_exam_version` SET `coms_exam_version_name`=concat('SET ',coms_exam_version_id) WHERE TRUE;
+UPDATE `coms_exam` SET `coms_exam_name`=concat('BPMspace EXAM ',coms_exam_id) WHERE TRUE ;
 
 
 
 
-UPDATE `bpmspace_coms_v3`.`coms_participant` SET `coms_participant_lastname`=generate_lname(), `coms_participant_firstname`=generate_fname(), `coms_participant_placeofbirth`=REPLACE(str_random_lipsum(2,1,0),'.',''), `coms_participant_birthcountry`=REPLACE(str_random_lipsum(2,1,0),'.',''), `coms_participant_dateofbirth`=DATE(FROM_UNIXTIME(UNIX_TIMESTAMP('1975-04-30 14:53:27') + FLOOR(0 + (RAND() * 630720000)))) WHERE TRUE;
+UPDATE `coms_exam_version` SET `coms_exam_version_name`=concat('SET ',coms_exam_version_id) WHERE TRUE;
 
-UPDATE `bpmspace_coms_v3`.`coms_participant_email` SET `coms_participant_emailadresss`=str_random('c{3}c(5)[.|_]c{8}c(8)@[google|yahoo|live|mail]".com"') WHERE TRUE;
 
-UPDATE `bpmspace_coms_v3`.`coms_participant_exam_event` SET `coms_participant_info`=str_random_lipsum(10,5,0) WHERE TRUE;
 
-UPDATE `bpmspace_coms_v3`.`coms_proctor` SET `coms_proctor_firstname`=generate_fname(), `coms_proctor_lastname`=generate_lname() WHERE TRUE;
 
-UPDATE `bpmspace_coms_v3`.`coms_proctor_email` SET `coms_proctor_emailadresss`=str_random('c{3}c(5)[.|_]c{8}c(8)@[google|yahoo|live|mail]".com"') WHERE TRUE;
+UPDATE `coms_participant` SET `coms_participant_lastname`=generate_lname(), `coms_participant_firstname`=generate_fname(), `coms_participant_placeofbirth`=REPLACE(str_random_lipsum(2,1,0),'.',''), `coms_participant_birthcountry`=REPLACE(str_random_lipsum(2,1,0),'.',''), `coms_participant_dateofbirth`=DATE(FROM_UNIXTIME(UNIX_TIMESTAMP('1975-04-30 14:53:27') + FLOOR(0 + (RAND() * 630720000)))) WHERE TRUE;
 
-UPDATE `bpmspace_coms_v3`.`coms_trainer` SET `coms_trainer_firstname`=generate_fname(), `coms_trainer_lastname`=generate_lname() WHERE TRUE;
+UPDATE `coms_participant_email` SET `coms_participant_emailadresss`=str_random('c{3}c(5)[.|_]c{8}c(8)@[google|yahoo|live|mail]".com"') WHERE TRUE;
 
-UPDATE `bpmspace_coms_v3`.`coms_trainer_email` SET `coms_trainer_emailadresss`=str_random('c{3}c(5)[.|_]c{8}c(8)@[google|yahoo|live|mail]".com"') WHERE TRUE;
+UPDATE `coms_participant_exam_event` SET `coms_participant_info`=str_random_lipsum(10,5,0) WHERE TRUE;
 
-UPDATE `bpmspace_coms_v3`.`coms_training_organisation` SET `coms_training_organisation_name`=concat('Organsation', generate_lname()), `coms_training_organisation_short_namel`=generate_lname(), coms_training_organisation_email=str_random('c{3}c(5)[.|_]c{8}c(8)@[google|yahoo|live|mail]".com"') WHERE TRUE;
+UPDATE `coms_proctor` SET `coms_proctor_firstname`=generate_fname(), `coms_proctor_lastname`=generate_lname() WHERE TRUE;
 
-UPDATE `bpmspace_coms_v3`.`coms_exam_event` SET `coms_exam_event_start_date`=DATE(FROM_UNIXTIME(UNIX_TIMESTAMP('2010-04-30 14:53:27') + FLOOR(0 + (RAND() * 63072000)))), `coms_exam_event_finish_date`=NULL, `coms_exam_event_location`=str_random_lipsum(50,20,0) WHERE TRUE;
+UPDATE `coms_proctor_email` SET `coms_proctor_emailadresss`=str_random('c{3}c(5)[.|_]c{8}c(8)@[google|yahoo|live|mail]".com"') WHERE TRUE;
+
+UPDATE `coms_trainer` SET `coms_trainer_firstname`=generate_fname(), `coms_trainer_lastname`=generate_lname() WHERE TRUE;
+
+UPDATE `coms_trainer_email` SET `coms_trainer_emailadresss`=str_random('c{3}c(5)[.|_]c{8}c(8)@[google|yahoo|live|mail]".com"') WHERE TRUE;
+
+UPDATE `coms_training_organisation` SET `coms_training_organisation_name`=concat('Organsation', generate_lname()), `coms_training_organisation_short_namel`=generate_lname(), coms_training_organisation_email=str_random('c{3}c(5)[.|_]c{8}c(8)@[google|yahoo|live|mail]".com"') WHERE TRUE;
+
+UPDATE `coms_exam_event` SET `coms_exam_event_start_date`=DATE(FROM_UNIXTIME(UNIX_TIMESTAMP('2010-04-30 14:53:27') + FLOOR(0 + (RAND() * 63072000)))), `coms_exam_event_finish_date`=NULL, `coms_exam_event_location`=str_random_lipsum(50,20,0) WHERE TRUE;
 
 UPDATE coms_exam_event AS ExEv	SET 	ExEv.coms_exam_event_name = (SELECT 	CONCAT(DATE(ExEv.coms_exam_event_start_date),	' - [',	ExEv.coms_exam_event_id_base32,	'] - ', 	Lg.language_short,	' - ',	Ex.coms_exam_name,	' - ',	TrOr.coms_training_organisation_short_namel)	FROM	((((((`coms_exam` `Ex`)	JOIN `state`)	JOIN `coms_delivery_type` `DeTy`)	JOIN `coms_training_organisation` `TrOr`)	JOIN `coms_trainer` `Tr`)	JOIN `coms_language` `Lg`)	WHERE	((`ExEv`.`coms_exam_id` = `Ex`.`coms_exam_id`)	AND (`ExEv`.`state_id` = `state`.`state_id`)	AND (`ExEv`.`coms_delivery_type_id` = `DeTy`.`coms_delivery_type_id`)	AND (`ExEv`.`coms_training_org_id` = `TrOr`.`coms_training_organisation_id`)	AND (`ExEv`.`coms_trainer_id` = `Tr`.`coms_trainer_id`)	AND (`Ex`.`coms_exam_language_id` = `Lg`.`coms_language_id`))	) WHERE TRUE;
 
