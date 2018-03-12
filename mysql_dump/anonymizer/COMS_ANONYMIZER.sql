@@ -310,11 +310,11 @@ select generate_fname() as FirstName, generate_fname() as LastName;
 SET SQL_SAFE_UPDATES = 0;
 
 
-UPDATE `coms_certificate` SET `coms_certificate_name`= concat('BPMspace ',coms_certificate_id_base32), `coms_certificate_description`=str_random_lipsum(10,5,0), `coms_certificate_intro`=str_random_lipsum(50,20,0) WHERE TRUE;
+UPDATE `coms_certificate` SET `coms_certificate_name`= concat('BPMspace ',concat(122387,FLOOR(RAND( )*1000000))), `coms_certificate_description`=str_random_lipsum(10,5,0), `coms_certificate_intro`=str_random_lipsum(50,20,0) WHERE TRUE;
 
 
 UPDATE `coms_certificate_participant` SET `coms_certificate_participant_date`=DATE(FROM_UNIXTIME(UNIX_TIMESTAMP('2010-04-30 14:53:27') + FLOOR(0 + (RAND() * 63072000)))) WHERE TRUE;
-UPDATE `coms_certificate_participant` SET `coms_certificate_participant_id`= FLOOR(RAND( )*100000) WHERE TRUE;
+UPDATE `coms_certificate_participant` SET `coms_certificate_participant_id`= FLOOR(RAND( )*1000000000) WHERE TRUE;
 UPDATE coms_certificate_participant set coms_certificate_participant_id_md5 = md5(coms_certificate_participant_id) where TRUE;
 UPDATE `coms_certificate_participant` set coms_certificate_participant_3digit = SUBSTRING(CONV(SUBSTRING(coms_certificate_participant_id_md5,1,5),16,10),1,3) where TRUE;
 UPDATE `coms_certificate_participant` set coms_certificate_participant_id_base32 = LPAD(CONV(concat(coms_certificate_participant_id,coms_certificate_participant_3digit),10,32),8,'0') where TRUE;
@@ -352,40 +352,12 @@ UPDATE `coms_exam_event` SET `coms_exam_event_start_date`=DATE(FROM_UNIXTIME(UNI
 
 UPDATE coms_exam_event AS ExEv	SET 	ExEv.coms_exam_event_name = (SELECT 	CONCAT(DATE(ExEv.coms_exam_event_start_date),	' - [',	ExEv.coms_exam_event_id_base32,	'] - ', 	Lg.language_short,	' - ',	Ex.coms_exam_name,	' - ',	TrOr.coms_training_organisation_short_namel)	FROM	((((((`coms_exam` `Ex`)	JOIN `state`)	JOIN `coms_delivery_type` `DeTy`)	JOIN `coms_training_organisation` `TrOr`)	JOIN `coms_trainer` `Tr`)	JOIN `coms_language` `Lg`)	WHERE	((`ExEv`.`coms_exam_id` = `Ex`.`coms_exam_id`)	AND (`ExEv`.`state_id` = `state`.`state_id`)	AND (`ExEv`.`coms_delivery_type_id` = `DeTy`.`coms_delivery_type_id`)	AND (`ExEv`.`coms_training_org_id` = `TrOr`.`coms_training_organisation_id`)	AND (`ExEv`.`coms_trainer_id` = `Tr`.`coms_trainer_id`)	AND (`Ex`.`coms_exam_language_id` = `Lg`.`coms_language_id`))	) WHERE TRUE;
 
+UPDATE `bpmspace_coms_v1`.`coms_certificate_participant` SET `coms_certificate`=NULL WHERE TRUE;
+UPDATE `bpmspace_coms_v1`.`coms_participant` SET `coms_participant_EXTERNAL_id`= FLOOR(0 + (RAND() * 94875)) WHERE TRUE;
+
+UPDATE `bpmspace_coms_v1`.`coms_training_organisation` SET `coms_training_organisation_passwd_hash`='' WHERE TRUE;
+
+
+-- check  coms_certificate_type manual
+
 SET SQL_SAFE_UPDATES = 1;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
