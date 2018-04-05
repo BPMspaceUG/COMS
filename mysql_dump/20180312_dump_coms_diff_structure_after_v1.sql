@@ -1,6 +1,6 @@
 -- New create with expirtation date: create_cert_part is now depricated
 
-DELIMITER ;
+
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
@@ -36,3 +36,5 @@ UPDATE `coms_certificate_participant` set coms_certificate_participant_3digit = 
 UPDATE `coms_certificate_participant` set coms_certificate_participant_id_base32 = LPAD(CONV(concat(coms_certificate_participant_id,coms_certificate_participant_3digit),10,32),8,'0') where coms_certificate_participant_id = @coms_certificate_participant_ID;
 
 END ;;
+
+DELIMITER ;
