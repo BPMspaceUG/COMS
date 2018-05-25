@@ -41,3 +41,11 @@ UPDATE `coms_certificate_participant` set coms_certificate_participant_id_base32
 END ;;
 
 DELIMITER ;
+                                                                                                                                
+                                                                                                                                ALTER TABLE `bpmspace_coms_v1`.`coms_exam_event` 
+ADD CONSTRAINT `coms_exam_version_id_fk1`
+  FOREIGN KEY (`coms_exam_version_id`)
+  REFERENCES `bpmspace_coms_v1`.`coms_exam_version` (`coms_exam_version_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
