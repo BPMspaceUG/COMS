@@ -1,3 +1,5 @@
+-- moodle_db is the original name and shold be used in the real environment for scripts and co.
+
 CREATE DATABASE  IF NOT EXISTS `moodle` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `moodle`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
