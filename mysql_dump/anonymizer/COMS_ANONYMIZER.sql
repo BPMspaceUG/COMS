@@ -357,7 +357,51 @@ UPDATE `bpmspace_coms_v1`.`coms_participant` SET `coms_participant_EXTERNAL_id`=
 
 UPDATE `bpmspace_coms_v1`.`coms_training_organisation` SET `coms_training_organisation_passwd_hash`='' WHERE TRUE;
 
+-- Moodle DB needed: mdl_user , mdl_offlinequiz and mdl_offlinequiz_results. coms has to be selected as main DB
 
+-- Update all that have no equivalent in coms and set to id value
+UPDATE `moodle`.`mdl_offlinequiz` 
+SET 
+    `moodle`.`mdl_offlinequiz`.`name` = CONCAT('Id: ', `moodle`.`mdl_offlinequiz`.`id`)
+WHERE
+    `moodle`.`mdl_offlinequiz`.`id` IN (SELECT 
+            `moodle`.`mdl_offlinequiz`.`id`
+        FROM
+            `moodle`.`mdl_offlinequiz`
+                LEFT JOIN
+            `coms_exam_event` ON `moodle`.`mdl_offlinequiz`.name LIKE CONCAT('%',
+                    `coms_exam_event`.`coms_exam_event_id_base32`,
+                    '%')
+        WHERE
+            `coms_exam_event`.`coms_exam_event_id_base32` IS NULL);
+
+-- Update all with equivalent in coms. Anonymize data to BPMSpace
+Update
+
+  moodle.mdl_offlinequiz
+
+JOIN coms_exam_event on moodle.mdl_offlinequiz.name like concat( '%',coms_exam_event.coms_exam_event_id_base32,'%' )
+
+SET   moodle.mdl_offlinequiz.name = coms_exam_event.coms_exam_event_name;
+
+-- Anonymize Moodle names	
+											    
+Update
+
+  moodle.mdl_offlinequiz
+
+JOIN coms_exam_event on moodle.mdl_offlinequiz.name like concat( '%',coms_exam_event.coms_exam_event_id_base32,'%' )
+
+SET   moodle.mdl_offlinequiz.name = coms_exam_event.coms_exam_event_name;
+
+-- anonymize users
+Update `moodle`.`mdl_user`
+
+JOIN `bpmspace_coms_v1_A`.`coms_participant` on LEFT(moodle.mdl_user.idnumber,length(moodle.mdl_user.idnumber)-3) = coms_participant_id
+
+SET   moodle.mdl_user.lastname = coms_participant.coms_participant_lastname, moodle.mdl_user.firstname = coms_participant.coms_participant_firstname;
+	
+											    
 -- check  coms_certificate_type manual
 
 SET SQL_SAFE_UPDATES = 1;
