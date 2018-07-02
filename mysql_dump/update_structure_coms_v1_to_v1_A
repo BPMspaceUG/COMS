@@ -1,0 +1,91 @@
+-- Convert schema 'bpmspace_coms_v1_A.sql' to 'bpmspace_coms_v1.sql':;
+
+BEGIN;
+
+
+ALTER TABLE coms_cert_cert ADD CONSTRAINT state_id_09fae03b FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE coms_certificate ADD CONSTRAINT state_id_f2355026 FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+                             ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
+
+ALTER TABLE coms_certificate_participant ADD CONSTRAINT state_id_62bc8ea0 FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+                                         ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
+
+ALTER TABLE coms_certificate_type ADD CONSTRAINT state_id_374f2db4 FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE coms_delivery_type ADD CONSTRAINT state_id_99d80327 FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE coms_exam ADD CONSTRAINT state_id_e6329503 FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+                      ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
+
+ALTER TABLE coms_exam_cert ADD CONSTRAINT state_id_65f29416 FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+                           ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
+
+ALTER TABLE coms_exam_event DROP INDEX `coms_exam_version_:id_fk_24324_idx`,
+                            ADD INDEX coms_exam_version_id_fk_24324_idx (coms_exam_version_id),
+                            ADD CONSTRAINT coms_exam_version_id_fk1 FOREIGN KEY (coms_exam_version_id) REFERENCES coms_exam_version (coms_exam_version_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+                            ADD CONSTRAINT state_id_c571d942 FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+                            ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
+
+ALTER TABLE coms_exam_exam ADD CONSTRAINT state_id_f41dabeb FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE coms_exam_training ADD CONSTRAINT state_id_9185390b FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE coms_exam_version ADD CONSTRAINT state_id_599d5c6a FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE coms_language ADD CONSTRAINT state_id_cdc5c7a9 FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+                          ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
+
+ALTER TABLE coms_participant ADD CONSTRAINT state_id_aef5fe29 FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+                             ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
+
+ALTER TABLE coms_participant_email ADD CONSTRAINT state_id_abcf923e FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+                                   ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
+
+ALTER TABLE coms_participant_exam_event ADD CONSTRAINT state_id_9d8ccbaf FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+                                        ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
+
+ALTER TABLE coms_participant_identifier ADD CONSTRAINT state_id_a99ed0b8 FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+                                        ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
+
+ALTER TABLE coms_participant_training_event ADD CONSTRAINT state_id_c5afc3dd FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE coms_proctor ADD CONSTRAINT state_id_add3ac77 FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+                         ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
+
+ALTER TABLE coms_proctor_email ADD CONSTRAINT state_id_e0217cb2 FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+                               ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
+
+ALTER TABLE coms_role ADD CONSTRAINT state_id_5c3664ba FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE coms_trainer ADD CONSTRAINT state_id_1896be89 FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE coms_trainer_email ADD CONSTRAINT state_id_c592418e FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+                               ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
+
+ALTER TABLE coms_trainer_exam ADD CONSTRAINT state_id_525811ed FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+                              ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
+
+ALTER TABLE coms_training ADD CONSTRAINT state_id_8883bbf7 FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE coms_training_event ADD CONSTRAINT state_id_32d1a033 FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE coms_training_organisation DROP COLUMN coms_training_organisation_short_namel,
+                                       ADD COLUMN coms_training_organisation_short_name varchar(45) NULL DEFAULT NULL,
+                                       ADD CONSTRAINT state_id_3a8114c2 FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+                                       ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
+
+ALTER TABLE coms_training_organisation_exam ADD CONSTRAINT state_id_810fd37d FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE coms_training_organisation_proctor ADD CONSTRAINT state_id_fdccc2d6 FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+                                               ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
+
+ALTER TABLE coms_training_organisation_trainer ADD CONSTRAINT state_id_202bcd7e FOREIGN KEY (state_id) REFERENCES state (state_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+                                               ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
+
+ALTER TABLE state ADD INDEX state_machine_id_fk (statemachine_id),
+                  ADD CONSTRAINT state_machine_id_fk FOREIGN KEY (statemachine_id) REFERENCES state_machines (id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+
+
+COMMIT;
