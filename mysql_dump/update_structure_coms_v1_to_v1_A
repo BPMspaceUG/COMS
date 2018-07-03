@@ -135,4 +135,8 @@ CREATE VIEW `v_coms_participant__exam_event` AS
             AND (`TRO`.`coms_training_organisation_id` = `EE`.`coms_training_org_id`)
             AND (`TR`.`coms_trainer_id` = `EE`.`coms_trainer_id`))
 
+ALTER TABLE `bpmspace_coms_v1`.`coms_training_organisation` 
+CHANGE COLUMN `coms_training_organisation_short_namel` `coms_training_organisation_short_name` VARCHAR(45) NULL DEFAULT NULL AFTER `coms_training_organisation_email`;
+
+
 COMMIT;
