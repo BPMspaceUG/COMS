@@ -391,8 +391,13 @@ Update `moodle`.`mdl_user`
 JOIN `bpmspace_coms_v1_A`.`coms_participant` on LEFT(moodle.mdl_user.idnumber,length(moodle.mdl_user.idnumber)-3) = coms_participant_id
 
 SET   moodle.mdl_user.lastname = coms_participant.coms_participant_lastname, moodle.mdl_user.firstname = coms_participant.coms_participant_firstname;
-	
+
+UPDATE `bpmspace_coms_v1_A`.`coms_training_organisation` SET `coms_training_organisation_short_name` = REPLACE(coms_training_organisation_name, 'Organsation', '');											    
+											    
 											    
 -- check  coms_certificate_type manual
+											    
+											    
+											    
 
 SET SQL_SAFE_UPDATES = 1;
