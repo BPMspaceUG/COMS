@@ -1,9 +1,7 @@
 <?php
   // Includes
-  require_once(__DIR__.'/../../DB_config/login_credentials_DB_bpmspace_coms.inc.php');
   require_once(__DIR__.'/../src/AuthHandler.inc.php');
   include_once(__DIR__."/../src/RequestHandler.inc.php");
-
 
   // Check if authenticated via Token
   $rawtoken = JWT::getBearerToken();
@@ -39,14 +37,6 @@
     $param["where"] = 'a.account_id = '.$token->uid;
   }
   */
-
-  if ($command == 'read') {
-    if ($param["table"] == 'coms_participant_exam_event' ){
-
-      $param["where"] = 'a.state_id != 85';
-      
-    }
-  }
 
   // Handle the Requests
   if ($command != "") {
