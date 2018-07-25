@@ -52,37 +52,19 @@ ADD CONSTRAINT `coms_exam_version_id_fk1`
 
 CREATE VIEW 
 		`v_coms_trainingorg_exam_events` AS
-    SELECT 
-        
-		`coms_exam_event`.`coms_exam_event_id` AS `coms_exam_event_id`,
-        
-		`coms_exam`.`coms_exam_name` AS `coms_exam_name`,
-        
-		`coms_exam_event`.`coms_exam_event_start_date` AS `coms_exam_event_start_date`,
-        
-		`coms_trainer`.`coms_trainer_firstname` AS `coms_trainer_firstname`,
-        
-		`coms_trainer`.`coms_trainer_lastname` AS `coms_trainer_lastname`,
-        
-		`coms_proctor`.`coms_proctor_firstname` AS `coms_proctor_firstname`,
-        
-		`coms_proctor`.`coms_proctor_lastname` AS `coms_proctor_lastname`,
-        
-		`coms_exam_event`.`state_id` AS `state_id`,
-        
-		`coms_exam_event`.`coms_training_org_id` AS `coms_training_org_id`
+     SELECT 
+        `coms_exam_event`.`coms_exam_event_id` AS `coms_exam_event_id`,
+        `coms_exam`.`coms_exam_name` AS `coms_exam_name`,
+        `coms_exam_event`.`coms_exam_event_start_date` AS `coms_exam_event_start_date`,
+        `coms_trainer`.`coms_trainer_firstname` AS `coms_trainer_firstname`,
+        `coms_trainer`.`coms_trainer_lastname` AS `coms_trainer_lastname`,
+        `coms_proctor`.`coms_proctor_firstname` AS `coms_proctor_firstname`,
+        `coms_proctor`.`coms_proctor_lastname` AS `coms_proctor_lastname`,
+        `state`.`name` AS `state`,
+        `coms_exam_event`.`coms_training_org_id` AS `coms_training_org_id`
     FROM
-        (((
-		`coms_exam`
-        JOIN 
-		`coms_exam_event` ON ((
-		`coms_exam_event`.`coms_exam_id` = 
-		`coms_exam`.`coms_exam_id`)))
-        JOIN 
-		`coms_proctor` ON ((
-		`coms_exam_event`.`coms_proctor_id` = 
-		`coms_proctor`.`coms_proctor_id`)))
-        JOIN 
-		`coms_trainer` ON ((
-		`coms_exam_event`.`coms_trainer_id` = 
-		`coms_trainer`.`coms_trainer_id`)));
+        ((((`coms_exam`
+        JOIN `coms_exam_event` ON ((`coms_exam_event`.`coms_exam_id` = `coms_exam`.`coms_exam_id`)))
+        JOIN `coms_proctor` ON ((`coms_exam_event`.`coms_proctor_id` = `coms_proctor`.`coms_proctor_id`)))
+        JOIN `coms_trainer` ON ((`coms_exam_event`.`coms_trainer_id` = `coms_trainer`.`coms_trainer_id`)))
+        JOIN `state` ON ((`coms_exam_event`.`state_id` = `state`.`state_id`)));
