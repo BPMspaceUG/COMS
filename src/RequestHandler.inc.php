@@ -27,7 +27,6 @@
       }
       return $res;
     }
-    // Format data for output, so long because of ForeignKeys
     private function parseToJSON($result) {
       $results_array = array();
       if (!$result) return false;
@@ -104,6 +103,11 @@
       }
       $output = substr($output, 0, -1);
       return $output;
+    }
+    private function readRow($tablename, $primColName, $ElementID) {
+      $query = "SELECT * FROM $tablename WHERE $primColName = $ElementID;";
+      $res = DB::getInstance()->getConnection()->query($query);
+      return $res->fetch_assoc();
     }
     //================================== INIT
     // TODO: Rename to loadConfig
@@ -370,11 +374,6 @@
       $res = $SE->getNextStates($stateID);
       return json_encode($res);
     }
-    private function readRow($tablename, $primColName, $ElementID) {
-      $query = "SELECT * FROM $tablename WHERE $primColName = $ElementID;";
-      $res = DB::getInstance()->getConnection()->query($query);
-      return $res->fetch_assoc();
-    }
     public function makeTransition($param) {
       // INPUT [table, ElementID, (next)state_id]
       // Get the next ID for the next State
@@ -459,6 +458,35 @@
       $SE = new StateMachine(DB::getInstance()->getConnection(), DB_NAME, $tablename);
       $res = $SE->getLinks();
       return json_encode($res);
+    }
+    public function getFile($param) {
+      // Download File from Server
+      // TODO: 1. Paths have to be in a whitelist
+      // TODO: 2. FileExtensions/types has to be in a whitelist too
+      
+      // Inputs
+      $filename = strtolower($param["name"]);
+      $filepath = strtolower($param["path"]);
+      $tmp_parts = explode(".", strtolower($param["name"]));
+      $filetype = end($tmp_parts);
+
+      // Whitelists
+      $whitelist_paths = WHITELIST_PATHS;
+      $whitelist_types = WHITELIST_TYPES;
+
+      if (in_array($filepath, $whitelist_paths) && in_array($filetype, $whitelist_types)) {
+        //echo "path and type in whitelist\n";
+        // File exists
+        $filepathcomplete = $filepath . $filename;
+        //echo "Filepath: ".$filepathcomplete."\n";
+        if (file_exists($filepathcomplete)) {
+          //echo "File exists\n";
+          $filecontent = file_get_contents($filepathcomplete);
+          echo $filecontent;
+        } else 
+          die("error");
+      } else
+        die("error");
     }
   }
 ?>
