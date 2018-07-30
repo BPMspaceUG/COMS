@@ -4,7 +4,7 @@ USE `bpmspace_coms_v1_A`;
 --
 -- Host: 127.0.0.1    Database: bpmspace_coms_v1_A
 -- ------------------------------------------------------
--- Server version	5.5.5-10.3.7-MariaDB-1:10.3.7+maria~jessie-log
+-- Server version	5.5.5-10.1.28-MariaDB-1~jessie
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -27,11 +27,11 @@ DROP TABLE IF EXISTS `state`;
 CREATE TABLE `state` (
   `state_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
-  `form_data` longtext DEFAULT NULL,
-  `entrypoint` tinyint(4) DEFAULT 0,
+  `form_data` longtext,
+  `entrypoint` tinyint(4) DEFAULT '0',
   `statemachine_id` bigint(20) NOT NULL,
-  `script_IN` longtext DEFAULT NULL,
-  `script_OUT` longtext DEFAULT NULL,
+  `script_IN` longtext,
+  `script_OUT` longtext,
   PRIMARY KEY (`state_id`),
   KEY `state_machine_id_fk` (`statemachine_id`),
   CONSTRAINT `state_machine_id_fk` FOREIGN KEY (`statemachine_id`) REFERENCES `state_machines` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -48,10 +48,10 @@ DROP TABLE IF EXISTS `state_machines`;
 CREATE TABLE `state_machines` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `tablename` varchar(45) DEFAULT NULL,
-  `transition_script` longtext DEFAULT NULL,
-  `form_data` longtext DEFAULT NULL,
+  `transition_script` longtext,
+  `form_data` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +65,7 @@ CREATE TABLE `state_rules` (
   `state_rules_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `state_id_FROM` bigint(20) NOT NULL,
   `state_id_TO` bigint(20) NOT NULL,
-  `transition_script` longtext DEFAULT NULL,
+  `transition_script` longtext,
   PRIMARY KEY (`state_rules_id`),
   KEY `state_id_fk1_idx` (`state_id_FROM`),
   KEY `state_id_fk_to_idx` (`state_id_TO`),
@@ -73,14 +73,6 @@ CREATE TABLE `state_rules` (
   CONSTRAINT `state_id_fk_to` FOREIGN KEY (`state_id_TO`) REFERENCES `state` (`state_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=266 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
-
-
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-ALTER DATABASE `bpmspace_coms_v1_A` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -91,4 +83,4 @@ ALTER DATABASE `bpmspace_coms_v1_A` CHARACTER SET latin1 COLLATE latin1_swedish_
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-02 12:31:56
+-- Dump completed on 2018-07-30 17:16:11
