@@ -13,4 +13,5 @@ GRANT EXECUTE ON PROCEDURE `bpmspace_coms_v1`.`create_part_event` TO email;
 GRANT EXECUTE ON PROCEDURE `bpmspace_coms_v1`.`create_event` TO email;
 GRANT EXECUTE ON PROCEDURE `bpmspace_coms_v1`.`create_cert_part` TO email;
 GRANT EXECUTE ON PROCEDURE `bpmspace_coms_v1`.`create_cert_part_2` TO email;
+GRANT EXECUTE ON PROCEDURE `bpmspace_coms_v1`.`create_event` TO email;
 FLUSH PRIVILEGES;
