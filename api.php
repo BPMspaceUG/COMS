@@ -23,8 +23,8 @@
   
   // Parameter
   $paramData = json_decode(file_get_contents('php://input'), true);
-  $command = $paramData["cmd"];
-  $param = $paramData["paramJS"];
+  $command = $paramData["cmd"]; // HAS TO EXIST!
+  $param = isset($paramData["paramJS"]) ? $paramData["paramJS"] : null;
 
   /* TODO
   // Check if has rights

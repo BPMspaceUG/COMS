@@ -60,7 +60,10 @@
 <!--<h1>&nbsp;</h1>-->
 <main role="main">
   <div class="container-fluid">
-    <div class="card">
+    <div class="text-center text-primary initloadingtext">
+      <h1><i class="fa fa-spinner fa-pulse"></i> Loading...</h1>
+    </div>
+    <div class="card mainapp collapse">
       <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs">
                       <li class="nav-item">
@@ -185,10 +188,17 @@
   <script src="js/muster.js"></script>
   <script>
     $(document).ready(function() {
-      initTables(function(){
+      DB.init('api.php', function(){
+        // Message when everything is ready
         console.log('Everything ready!')
+        // First Tab selection
+        $('.nav-tabs .nav-link:first').addClass('active')
+        $('.tab-content .tab-pane:first').addClass('active')
+        // Loading disable
+        $('.initloadingtext').hide();
+        $('.mainapp').show();
       });
-    });    
+    });
   </script>
 </body>
 </html>
