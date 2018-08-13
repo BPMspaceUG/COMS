@@ -1219,9 +1219,11 @@ function openTableInModal(tablename, previousSelRows = [], callback = function (
     var timestr = (new Date()).getTime();
     var newFKTableClass = 'foreignTable_abcdef' + timestr; // Make dynamic and unique -> if foreignkey from foreignkey (>2 loops)
     var M = new Modal('Select Foreign Key', '<div class="' + newFKTableClass + '"></div>', SelectBtn, true);
-    var t = new Table(tablename, '.' + newFKTableClass, SelectType.Single);
-    t.setSelectedRows(previousSelRows);
-    DB.addTable(t); // For identification for Search and Filter // TODO: Maybe clean from array after modal is closed  
+    var t = new Table(tablename, '.' + newFKTableClass, SelectType.Single, function () {
+        DB.addTable(t);
+        t.setSelectedRows(previousSelRows);
+    }, '');
+    // For identification for Search and Filter // TODO: Maybe clean from array after modal is closed  
     // Bind Buttonclick (Select)
     $('#' + M.getDOMID() + ' .btnSelectFK').click(function (e) {
         e.preventDefault();
