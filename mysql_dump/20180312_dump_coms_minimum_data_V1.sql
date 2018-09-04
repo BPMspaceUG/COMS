@@ -1,4 +1,6 @@
-   CREATE DATABASE  IF NOT EXISTS `bpmspace_coms_v1` /*!40100 DEFAULT CHARACTER SET utf8 */;
+
+
+CREATE DATABASE  IF NOT EXISTS `bpmspace_coms_v1` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `bpmspace_coms_v1`;
 
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
@@ -105,3 +107,7 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+UPDATE `state` SET `name`='incomplete' WHERE `state_id`='110';
+UPDATE `state` SET `name`='complete' WHERE `state_id`='111';
+UPDATE `state` SET `name`='blocked' WHERE `state_id`='112';
