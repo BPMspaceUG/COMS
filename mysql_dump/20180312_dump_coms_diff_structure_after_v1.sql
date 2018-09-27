@@ -122,3 +122,50 @@ VIEW `v_coms_participant__exam_event` AS
             AND (`DT`.`coms_delivery_type_id` = `EE`.`coms_delivery_type_id`)
             AND (`TRO`.`coms_training_organisation_id` = `EE`.`coms_training_org_id`)
             AND (`TR`.`coms_trainer_id` = `EE`.`coms_trainer_id`));
+		 
+
+CREATE 
+     OR REPLACE ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `v_csvexport_trainingorg_exam` AS
+    SELECT 
+        `coms_training_organisation`.`coms_training_organisation_id` AS `coms_training_organisation_id`,
+        `coms_exam`.`coms_exam_id` AS `coms_exam_id`,
+        `coms_exam`.`coms_exam_name` AS `coms_exam_name`,
+        `state`.`name` AS `state`,
+        `coms_language`.`language_short` AS `language`
+    FROM
+        ((((`coms_training_organisation`
+        JOIN `coms_training_organisation_exam` ON ((`coms_training_organisation_exam`.`coms_trainingsorganisation_id` = `coms_training_organisation`.`coms_training_organisation_id`)))
+        JOIN `coms_exam` ON ((`coms_training_organisation_exam`.`coms_exam_id` = `coms_exam`.`coms_exam_id`)))
+        JOIN `state` ON ((`coms_training_organisation_exam`.`state_id` = `state`.`state_id`)))
+        JOIN `coms_language` ON ((`coms_exam`.`coms_exam_language_id` = `coms_language`.`coms_language_id`)));
+		 
+
+CREATE 
+     OR REPLACE ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `v_coms_trainingorg_exam_events` AS
+    SELECT 
+        `coms_exam_event`.`coms_exam_event_id` AS `coms_exam_event_id`,
+        CONCAT(`coms_exam`.`coms_exam_name`,
+                ' - ',
+                `coms_language`.`language_short`) AS `coms_exam_name`,
+        `coms_exam_event`.`coms_exam_event_start_date` AS `coms_exam_event_start_date`,
+        `coms_trainer`.`coms_trainer_firstname` AS `coms_trainer_firstname`,
+        `coms_trainer`.`coms_trainer_lastname` AS `coms_trainer_lastname`,
+        `coms_proctor`.`coms_proctor_firstname` AS `coms_proctor_firstname`,
+        `coms_proctor`.`coms_proctor_lastname` AS `coms_proctor_lastname`,
+        `state`.`name` AS `state`,
+        `coms_exam_event`.`coms_training_org_id` AS `coms_training_org_id`
+    FROM
+        (((((`coms_exam`
+        JOIN `coms_exam_event` ON ((`coms_exam_event`.`coms_exam_id` = `coms_exam`.`coms_exam_id`)))
+        JOIN `coms_proctor` ON ((`coms_exam_event`.`coms_proctor_id` = `coms_proctor`.`coms_proctor_id`)))
+        JOIN `coms_trainer` ON ((`coms_exam_event`.`coms_trainer_id` = `coms_trainer`.`coms_trainer_id`)))
+        JOIN `state` ON ((`coms_exam_event`.`state_id` = `state`.`state_id`)))
+        JOIN `coms_language` ON ((`coms_exam`.`coms_exam_language_id` = `coms_language`.`coms_language_id`)));
+
+
