@@ -167,5 +167,9 @@ VIEW `v_coms_trainingorg_exam_events` AS
         JOIN `coms_trainer` ON ((`coms_exam_event`.`coms_trainer_id` = `coms_trainer`.`coms_trainer_id`)))
         JOIN `state` ON ((`coms_exam_event`.`state_id` = `state`.`state_id`)))
         JOIN `coms_language` ON ((`coms_exam`.`coms_exam_language_id` = `coms_language`.`coms_language_id`)));
+		 
+		 
+ALTER TABLE `coms_certificate_participant` 
+CHANGE COLUMN `coms_certificate` `coms_certificate` VARCHAR(150) NULL DEFAULT NULL ;
 
 
