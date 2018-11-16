@@ -1,3 +1,4 @@
+use bpmspace_coms_v2_TEST;
 SET GLOBAL log_bin_trust_function_creators = 1;
 DELIMITER //
 DROP FUNCTION IF EXISTS str_random_lipsum;
@@ -346,11 +347,11 @@ UPDATE `coms_trainer` SET `coms_trainer_firstname`=generate_fname(), `coms_train
 
 UPDATE `coms_trainer_email` SET `coms_trainer_emailadresss`=str_random('c{3}c(5)[.|_]c{8}c(8)@[google|yahoo|live|mail]".com"') WHERE TRUE;
 
-UPDATE `coms_training_organisation` SET `coms_training_organisation_name`=concat('Organsation', generate_lname()), `coms_training_organisation_short_namel`=generate_lname(), coms_training_organisation_email=str_random('c{3}c(5)[.|_]c{8}c(8)@[google|yahoo|live|mail]".com"') WHERE TRUE;
+UPDATE `coms_training_organisation` SET `coms_training_organisation_name`=concat('Organsation', generate_lname()), `coms_training_organisation_short_name`=generate_lname(), coms_training_organisation_email=str_random('c{3}c(5)[.|_]c{8}c(8)@[google|yahoo|live|mail]".com"') WHERE TRUE;
 
 UPDATE `coms_exam_event` SET `coms_exam_event_start_date`=DATE(FROM_UNIXTIME(UNIX_TIMESTAMP('2010-04-30 14:53:27') + FLOOR(0 + (RAND() * 63072000)))), `coms_exam_event_finish_date`=NULL, `coms_exam_event_location`=str_random_lipsum(50,20,0) WHERE TRUE;
 
-UPDATE coms_exam_event AS ExEv	SET 	ExEv.coms_exam_event_name = (SELECT 	CONCAT(DATE(ExEv.coms_exam_event_start_date),	' - [',	ExEv.coms_exam_event_id_base32,	'] - ', 	Lg.language_short,	' - ',	Ex.coms_exam_name,	' - ',	TrOr.coms_training_organisation_short_namel)	FROM	((((((`coms_exam` `Ex`)	JOIN `state`)	JOIN `coms_delivery_type` `DeTy`)	JOIN `coms_training_organisation` `TrOr`)	JOIN `coms_trainer` `Tr`)	JOIN `coms_language` `Lg`)	WHERE	((`ExEv`.`coms_exam_id` = `Ex`.`coms_exam_id`)	AND (`ExEv`.`state_id` = `state`.`state_id`)	AND (`ExEv`.`coms_delivery_type_id` = `DeTy`.`coms_delivery_type_id`)	AND (`ExEv`.`coms_training_org_id` = `TrOr`.`coms_training_organisation_id`)	AND (`ExEv`.`coms_trainer_id` = `Tr`.`coms_trainer_id`)	AND (`Ex`.`coms_exam_language_id` = `Lg`.`coms_language_id`))	) WHERE TRUE;
+UPDATE coms_exam_event AS ExEv	SET 	ExEv.coms_exam_event_name = (SELECT 	CONCAT(DATE(ExEv.coms_exam_event_start_date),	' - [',	ExEv.coms_exam_event_id_base32,	'] - ', 	Lg.language_short,	' - ',	Ex.coms_exam_name,	' - ',	TrOr.coms_training_organisation_short_name)	FROM	((((((`coms_exam` `Ex`)	JOIN `state`)	JOIN `coms_delivery_type` `DeTy`)	JOIN `coms_training_organisation` `TrOr`)	JOIN `coms_trainer` `Tr`)	JOIN `coms_language` `Lg`)	WHERE	((`ExEv`.`coms_exam_id` = `Ex`.`coms_exam_id`)	AND (`ExEv`.`state_id` = `state`.`state_id`)	AND (`ExEv`.`coms_delivery_type_id` = `DeTy`.`coms_delivery_type_id`)	AND (`ExEv`.`coms_training_org_id` = `TrOr`.`coms_training_organisation_id`)	AND (`ExEv`.`coms_trainer_id` = `Tr`.`coms_trainer_id`)	AND (`Ex`.`coms_exam_language_id` = `Lg`.`coms_language_id`))	) WHERE TRUE;
 
 UPDATE `bpmspace_coms_v2_TEST`.`coms_certificate_participant` SET `coms_certificate`=NULL WHERE TRUE;
 UPDATE `bpmspace_coms_v2_TEST`.`coms_participant` SET `coms_participant_EXTERNAL_id`= FLOOR(0 + (RAND() * 94875)) WHERE TRUE;
