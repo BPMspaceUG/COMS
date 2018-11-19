@@ -16,3 +16,5 @@ JOIN `bpmspace_coms_v2_TEST`.`coms_participant` on LEFT(moodle.mdl_user.idnumber
 
 SET   moodle.mdl_user.lastname = coms_participant.coms_participant_lastname, moodle.mdl_user.firstname = coms_participant.coms_participant_firstname;
 
+UPDATE `moodle`.`mdl_offlinequiz` SET `pdfintro`='<b></b><b>In order to optain ......</b><b></b><br>';
+SET SQL_SAFE_UPDATES = 1;
