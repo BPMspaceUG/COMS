@@ -121,59 +121,6 @@ CREATE OR REPLACE
 VIEW `v_coms_participant__id__email`  AS
 select `coms_participant`.`coms_participant_id` AS `coms_participant_id`,`coms_participant_identifier`.`coms_participant_matriculation` AS `coms_participant_matriculation`,`coms_participant_identifier`.`coms_participant_md5` AS `coms_participant_md5`,`coms_participant_identifier`.`coms_participant_base32` AS `coms_participant_base32`,`coms_participant`.`coms_participant_gender` AS `coms_participant_gender`,`coms_participant`.`coms_participant_lastname` AS `coms_participant_lastname`,`coms_participant`.`coms_participant_firstname` AS `coms_participant_firstname`,`coms_participant`.`coms_participant_public` AS `coms_participant_public`,`coms_participant`.`coms_participant_placeofbirth` AS `coms_participant_placeofbirth`,`coms_participant`.`coms_participant_birthcountry` AS `coms_participant_birthcountry`,`coms_participant`.`coms_participant_dateofbirth` AS `coms_participant_dateofbirth`,`coms_participant`.`coms_participant_LIAM_id` AS `coms_participant_LIAM_id`,`coms_participant_email`.`coms_participant_emailadresss` AS `coms_participant_emailadresss`,`coms_participant`.`state_id` AS `state_id`,concat('https://domain.com/de/formular-teilnehmer/',`coms_participant_identifier`.`coms_participant_md5`,'/',`coms_participant_identifier`.`coms_participant_id`) AS `url_form_participant`,`coms_participant`.`coms_participant_language_id` AS `coms_participant_language_id` from ((`coms_participant` join `coms_participant_identifier` on(`coms_participant`.`coms_participant_id` = `coms_participant_identifier`.`coms_participant_id`)) join `coms_participant_email` on(`coms_participant`.`coms_participant_id` = `coms_participant_email`.`coms_participant_id`));
 
-CREATE OR REPLACE
-VIEW `v_coms_participant__exam_event` AS
-    SELECT DISTINCT
-        `EE`.`coms_exam_event_id` AS `coms_exam_event_id`,
-        `EE`.`coms_exam_event_name` AS `coms_exam_event_name`,
-        `EE`.`state_id` AS `event_state_id`,
-        `ST2`.`name` AS `event_state_name`,
-        `EE`.`coms_exam_event_start_date` AS `coms_exam_event_start_date`,
-        `EE`.`coms_exam_event_finish_date` AS `coms_exam_event_finish_date`,
-        `EE`.`coms_exam_event_location` AS `coms_exam_event_location`,
-        `EE`.`coms_exam_id` AS `coms_exam_id`,
-        `EE`.`coms_delivery_type_id` AS `coms_delivery_type_id`,
-        `DT`.`coms_delivery_description` AS `coms_delivery_description`,
-        `EE`.`coms_training_org_id` AS `coms_training_org_id`,
-        `TRO`.`coms_training_organisation_name` AS `coms_training_organisation_name`,
-        `EE`.`coms_trainer_id` AS `coms_trainer_id`,
-        `TR`.`coms_trainer_lastname` AS `coms_trainer_lastname`,
-        `TR`.`coms_trainer_firstname` AS `coms_trainer_firstname`,
-        `P`.`coms_participant_id` AS `coms_participant_id`,
-        `P`.`coms_participant_gender` AS `coms_participant_gender`,
-        `P`.`coms_participant_lastname` AS `coms_participant_lastname`,
-        `P`.`coms_participant_firstname` AS `coms_participant_firstname`,
-        `P`.`coms_participant_language_id` AS `coms_participant_language_id`,
-        `PEE`.`coms_participant_exam_event_id` AS `coms_participant_exam_event_id`,
-        `PEE`.`state_id` AS `participant_state`,
-        `ST1`.`name` AS `participant_state_name`,
-        `P`.`coms_participant_public` AS `coms_participant_public`,
-        `P`.`coms_participant_placeofbirth` AS `coms_participant_placeofbirth`,
-        `P`.`coms_participant_birthcountry` AS `coms_participant_birthcountry`,
-        `P`.`coms_participant_dateofbirth` AS `coms_participant_dateofbirth`,
-        `P`.`coms_participant_LIAM_id` AS `coms_participant_LIAM_id`,
-        `PEE`.`coms_participant_info` AS `coms_participant_info`,
-        `PEE`.`coms_participant_exam_event_percent` AS `coms_participant_exam_event_percent`
-    FROM
-        (((((((`coms_participant` `P`
-        JOIN `coms_participant_exam_event` `PEE`)
-        JOIN `coms_exam_event` `EE`)
-        JOIN `state` `ST1`)
-        JOIN `state` `ST2`)
-        JOIN `coms_delivery_type` `DT`)
-        JOIN `coms_training_organisation` `TRO`)
-        JOIN `coms_trainer` `TR`)
-    WHERE
-        ((`P`.`coms_participant_id` = `PEE`.`coms_participant_id`)
-            AND (`PEE`.`coms_exam_event_id` = `EE`.`coms_exam_event_id`)
-            AND (`ST1`.`state_id` = `PEE`.`state_id`)
-            AND (`ST2`.`state_id` = `EE`.`state_id`)
-            AND (`DT`.`coms_delivery_type_id` = `EE`.`coms_delivery_type_id`)
-            AND (`TRO`.`coms_training_organisation_id` = `EE`.`coms_training_org_id`)
-            AND (`TR`.`coms_trainer_id` = `EE`.`coms_trainer_id`)
-            AND (`EE`.`state_id` <> 39)
-            AND (`PEE`.`state_id` <> 85));
-
 CREATE OR REPLACE 
 VIEW `v_coms_participant__Exam_Event` AS
     SELECT DISTINCT
@@ -185,6 +132,7 @@ VIEW `v_coms_participant__Exam_Event` AS
         `EE`.`coms_exam_event_finish_date` AS `coms_exam_event_finish_date`,
         `EE`.`coms_exam_event_location` AS `coms_exam_event_location`,
         `EE`.`coms_exam_id` AS `coms_exam_id`,
+        `E`.`coms_exam_name` AS `coms_exam_name`,
         `EE`.`coms_delivery_type_id` AS `coms_delivery_type_id`,
         `DT`.`coms_delivery_description` AS `coms_delivery_description`,
         `EE`.`coms_training_org_id` AS `coms_training_org_id`,
@@ -208,7 +156,7 @@ VIEW `v_coms_participant__Exam_Event` AS
         `PEE`.`coms_participant_info` AS `coms_participant_info`,
         `PEE`.`coms_participant_exam_event_percent` AS `coms_participant_exam_event_percent`
     FROM
-        (((((((`coms_participant` `P`
+        ((((((((`coms_participant` `P`
         JOIN `coms_participant_exam_event` `PEE`)
         JOIN `coms_exam_event` `EE`)
         JOIN `state` `ST1`)
@@ -216,6 +164,7 @@ VIEW `v_coms_participant__Exam_Event` AS
         JOIN `coms_delivery_type` `DT`)
         JOIN `coms_training_organisation` `TRO`)
         JOIN `coms_trainer` `TR`)
+        JOIN `coms_exam` `E`)
     WHERE
         ((`P`.`coms_participant_id` = `PEE`.`coms_participant_id`)
             AND (`PEE`.`coms_exam_event_id` = `EE`.`coms_exam_event_id`)
@@ -225,5 +174,60 @@ VIEW `v_coms_participant__Exam_Event` AS
             AND (`TRO`.`coms_training_organisation_id` = `EE`.`coms_training_org_id`)
             AND (`TR`.`coms_trainer_id` = `EE`.`coms_trainer_id`)
             AND (`EE`.`state_id` <> 39)
-            AND (`PEE`.`state_id` <> 85));
+            AND (`PEE`.`state_id` <> 85)
+            AND (`EE`.`coms_exam_id` = `E`.`coms_exam_id`));
 
+CREATE VIEW `v_coms_participant__exam_event` AS
+    SELECT DISTINCT
+        `EE`.`coms_exam_event_id` AS `coms_exam_event_id`,
+        `EE`.`coms_exam_event_name` AS `coms_exam_event_name`,
+        `EE`.`state_id` AS `event_state_id`,
+        `ST2`.`name` AS `event_state_name`,
+        `EE`.`coms_exam_event_start_date` AS `coms_exam_event_start_date`,
+        `EE`.`coms_exam_event_finish_date` AS `coms_exam_event_finish_date`,
+        `EE`.`coms_exam_event_location` AS `coms_exam_event_location`,
+        `EE`.`coms_exam_id` AS `coms_exam_id`,
+        `E`.`coms_exam_name` AS `coms_exam_name`,
+        `EE`.`coms_delivery_type_id` AS `coms_delivery_type_id`,
+        `DT`.`coms_delivery_description` AS `coms_delivery_description`,
+        `EE`.`coms_training_org_id` AS `coms_training_org_id`,
+        `TRO`.`coms_training_organisation_name` AS `coms_training_organisation_name`,
+        `EE`.`coms_trainer_id` AS `coms_trainer_id`,
+        `TR`.`coms_trainer_lastname` AS `coms_trainer_lastname`,
+        `TR`.`coms_trainer_firstname` AS `coms_trainer_firstname`,
+        `P`.`coms_participant_id` AS `coms_participant_id`,
+        `P`.`coms_participant_gender` AS `coms_participant_gender`,
+        `P`.`coms_participant_lastname` AS `coms_participant_lastname`,
+        `P`.`coms_participant_firstname` AS `coms_participant_firstname`,
+        `P`.`coms_participant_language_id` AS `coms_participant_language_id`,
+        `PEE`.`coms_participant_exam_event_id` AS `coms_participant_exam_event_id`,
+        `PEE`.`state_id` AS `participant_state`,
+        `ST1`.`name` AS `participant_state_name`,
+        `P`.`coms_participant_public` AS `coms_participant_public`,
+        `P`.`coms_participant_placeofbirth` AS `coms_participant_placeofbirth`,
+        `P`.`coms_participant_birthcountry` AS `coms_participant_birthcountry`,
+        `P`.`coms_participant_dateofbirth` AS `coms_participant_dateofbirth`,
+        `P`.`coms_participant_LIAM_id` AS `coms_participant_LIAM_id`,
+        `PEE`.`coms_participant_info` AS `coms_participant_info`,
+        `PEE`.`coms_participant_exam_event_percent` AS `coms_participant_exam_event_percent`
+    FROM
+        ((((((((`coms_participant` `P`
+        JOIN `coms_participant_exam_event` `PEE`)
+        JOIN `coms_exam_event` `EE`)
+        JOIN `state` `ST1`)
+        JOIN `state` `ST2`)
+        JOIN `coms_delivery_type` `DT`)
+        JOIN `coms_training_organisation` `TRO`)
+        JOIN `coms_trainer` `TR`)
+        JOIN `coms_exam` `E`)
+    WHERE
+        ((`P`.`coms_participant_id` = `PEE`.`coms_participant_id`)
+            AND (`PEE`.`coms_exam_event_id` = `EE`.`coms_exam_event_id`)
+            AND (`ST1`.`state_id` = `PEE`.`state_id`)
+            AND (`ST2`.`state_id` = `EE`.`state_id`)
+            AND (`DT`.`coms_delivery_type_id` = `EE`.`coms_delivery_type_id`)
+            AND (`TRO`.`coms_training_organisation_id` = `EE`.`coms_training_org_id`)
+            AND (`TR`.`coms_trainer_id` = `EE`.`coms_trainer_id`)
+            AND (`EE`.`state_id` <> 39)
+            AND (`PEE`.`state_id` <> 85)
+            AND (`EE`.`coms_exam_id` = `E`.`coms_exam_id`));
