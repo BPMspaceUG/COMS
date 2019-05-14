@@ -235,3 +235,128 @@ CREATE VIEW `v_coms_participant__exam_event` AS
 CREATE OR REPLACE 
 VIEW `v_coms_participant__exam_event` AS			
 select `bpmspace_coms_v1_TEST`.`coms_participant`.`coms_participant_id` AS `coms_participant_id`,`bpmspace_coms_v1_TEST`.`coms_participant_identifier`.`coms_participant_matriculation` AS `coms_participant_matriculation`,`bpmspace_coms_v1_TEST`.`coms_participant_identifier`.`coms_participant_md5` AS `coms_participant_md5`,`bpmspace_coms_v1_TEST`.`coms_participant_identifier`.`coms_participant_base32` AS `coms_participant_base32`,`bpmspace_coms_v1_TEST`.`coms_participant`.`coms_participant_gender` AS `coms_participant_gender`,`bpmspace_coms_v1_TEST`.`coms_participant`.`coms_participant_lastname` AS `coms_participant_lastname`,`bpmspace_coms_v1_TEST`.`coms_participant`.`coms_participant_firstname` AS `coms_participant_firstname`,`bpmspace_coms_v1_TEST`.`coms_participant`.`coms_participant_public` AS `coms_participant_public`,`bpmspace_coms_v1_TEST`.`coms_participant`.`coms_participant_placeofbirth` AS `coms_participant_placeofbirth`,`bpmspace_coms_v1_TEST`.`coms_participant`.`coms_participant_birthcountry` AS `coms_participant_birthcountry`,`bpmspace_coms_v1_TEST`.`coms_participant`.`coms_participant_dateofbirth` AS `coms_participant_dateofbirth`,`bpmspace_coms_v1_TEST`.`coms_participant`.`coms_participant_LIAM_id` AS `coms_participant_LIAM_id`,`bpmspace_coms_v1_TEST`.`coms_participant_email`.`coms_participant_email_id` AS `coms_participant_email_id`,`bpmspace_coms_v1_TEST`.`coms_participant_email`.`coms_participant_emailadresss` AS `coms_participant_emailadresss`,`bpmspace_coms_v1_TEST`.`coms_participant_email`.`state_id` AS `coms_participant_email_state_id`,`bpmspace_coms_v1_TEST`.`coms_participant`.`state_id` AS `state_id`,concat('https://domain.com/de/formular-teilnehmer/',`bpmspace_coms_v1_TEST`.`coms_participant_identifier`.`coms_participant_md5`,'/',`bpmspace_coms_v1_TEST`.`coms_participant_identifier`.`coms_participant_id`) AS `url_form_participant`,`bpmspace_coms_v1_TEST`.`coms_participant`.`coms_participant_language_id` AS `coms_participant_language_id` from ((`bpmspace_coms_v1_TEST`.`coms_participant` join `bpmspace_coms_v1_TEST`.`coms_participant_identifier` on(`bpmspace_coms_v1_TEST`.`coms_participant`.`coms_participant_id` = `bpmspace_coms_v1_TEST`.`coms_participant_identifier`.`coms_participant_id`)) join `bpmspace_coms_v1_TEST`.`coms_participant_email` on(`bpmspace_coms_v1_TEST`.`coms_participant`.`coms_participant_id` = `bpmspace_coms_v1_TEST`.`coms_participant_email`.`coms_participant_id`))
+
+CREATE 
+    
+VIEW `v_coms_trainer__exam` AS
+    SELECT 
+        `trainer`.`coms_trainer_id_base32` AS `coms_trainer_id_base32`,
+        `trainer`.`coms_trainer_firstname` AS `coms_trainer_firstname`,
+        `trainer`.`coms_trainer_lastname` AS `coms_trainer_lastname`,
+        `exam`.`coms_exam_name` AS `coms_exam_name`
+    FROM
+        ((`coms_trainer` `trainer`
+        JOIN `coms_trainer_exam` `trainer_exam`)
+        JOIN `coms_exam` `exam`)
+    WHERE
+        ((`trainer`.`coms_trainer_id` = `trainer_exam`.`coms_trainer_id`)
+            AND (`trainer_exam`.`coms_exam_id` = `exam`.`coms_exam_id`)
+            /* trainer_exam must be accredited or temp. accredited*/
+            AND ((`trainer_exam`.`state_id` = 44)
+            OR (`trainer_exam`.`state_id` = 150))
+            /* trainer must be accredited or temp. accredited*/
+            AND ((`trainer`.`state_id` = 41)
+            OR (`trainer`.`state_id` = 151))
+            /* exam must be orderable*/
+            AND (`exam`.`state_id` = 77))
+		
+CREATE 
+    
+VIEW `v_coms_trainer_exam_org` AS
+    SELECT 
+        `training_organisation`.`coms_training_organisation_id` AS `coms_training_organisation_id`,
+        `training_organisation`.`coms_training_organisation_id_md5` AS `coms_training_organisation_id_md5`,
+        `training_organisation`.`coms_training_organisation_name` AS `coms_training_organisation_name`,
+        `trainer`.`coms_trainer_id` AS `coms_trainer_id`,
+        `trainer`.`coms_trainer_id_base32` AS `coms_trainer_id_base32`,
+        `trainer`.`coms_trainer_firstname` AS `coms_trainer_firstname`,
+        `trainer`.`coms_trainer_lastname` AS `coms_trainer_lastname`,
+        `exam`.`coms_exam_id` AS `coms_exam_id`,
+        `exam`.`coms_exam_name` AS `coms_exam_name`
+    FROM
+        ((((`coms_trainer` `trainer`
+        JOIN `coms_trainer_exam` `trainer_exam`)
+        JOIN `coms_exam` `exam`)
+        JOIN `coms_training_organisation_trainer` `training_organisation_trainer`)
+        JOIN `coms_training_organisation` `training_organisation`)
+    WHERE
+        ((`trainer`.`coms_trainer_id` = `trainer_exam`.`coms_trainer_id`)
+            AND (`trainer_exam`.`coms_exam_id` = `exam`.`coms_exam_id`)
+            AND (`trainer`.`coms_trainer_id` = `training_organisation_trainer`.`coms_trainer_id`)
+            AND (`training_organisation`.`coms_training_organisation_id` = `training_organisation_trainer`.`coms_training_organisation_id`)
+            AND ((`trainer_exam`.`state_id` = 44)
+            OR (`trainer_exam`.`state_id` = 150))
+            AND (`training_organisation_trainer`.`state_id` = 47)
+            AND ((`trainer`.`state_id` = 41)
+            OR (`trainer`.`state_id` = 151))
+            AND (`exam`.`state_id` = 77))
+		 
+		
+CREATE 
+   
+VIEW `v_csvexport_trainer_exam` AS
+    SELECT 
+        `coms_trainer`.`coms_trainer_id` AS `coms_trainer_id`,
+        `coms_trainer`.`coms_trainer_firstname` AS `coms_trainer_firstname`,
+        `coms_trainer`.`coms_trainer_lastname` AS `coms_trainer_lastname`,
+        `coms_exam`.`coms_exam_language_id` AS `coms_exam_language_id`,
+        `coms_exam`.`coms_exam_id` AS `coms_exam_id`,
+        `coms_exam`.`coms_exam_name` AS `coms_exam_name`
+    FROM
+        ((`coms_trainer`
+        JOIN `coms_trainer_exam` ON ((`coms_trainer_exam`.`coms_trainer_id` = `coms_trainer`.`coms_trainer_id`)))
+        JOIN `coms_exam` ON ((`coms_trainer_exam`.`coms_exam_id` = `coms_exam`.`coms_exam_id`)))
+    WHERE
+        (((`coms_trainer_exam`.`state_id` = 44)
+            OR (`coms_trainer_exam`.`state_id` = 150))
+            AND ((`coms_trainer`.`state_id` = 41)
+            OR (`coms_trainer`.`state_id` = 151))
+            AND (`coms_exam`.`state_id` = 77))
+		 
+ CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `v_csvexport_trainingorg_exam` AS
+    SELECT 
+        `coms_training_organisation`.`coms_training_organisation_id` AS `coms_training_organisation_id`,
+        `coms_exam`.`coms_exam_id` AS `coms_exam_id`,
+        `coms_exam`.`coms_exam_name` AS `coms_exam_name`,
+        `state`.`name` AS `state`,
+        `coms_language`.`language_short` AS `language`
+    FROM
+        ((((`coms_training_organisation`
+        JOIN `coms_training_organisation_exam` ON ((`coms_training_organisation_exam`.`coms_trainingsorganisation_id` = `coms_training_organisation`.`coms_training_organisation_id`)))
+        JOIN `coms_exam` ON ((`coms_training_organisation_exam`.`coms_exam_id` = `coms_exam`.`coms_exam_id`)))
+        JOIN `state` ON ((`coms_training_organisation_exam`.`state_id` = `state`.`state_id`)))
+        JOIN `coms_language` ON ((`coms_exam`.`coms_exam_language_id` = `coms_language`.`coms_language_id`)))
+    WHERE
+        ((`coms_training_organisation_exam`.`state_id` = 71)
+        AND (`coms_exam`.`state_id` = 77))
+	     
+CREATE 
+    
+VIEW `v_coms_participant_email_groupconcat` AS
+    SELECT 
+        `coms_participant`.`coms_participant_id` AS `coms_participant_id`,
+        `coms_participant`.`coms_participant_LIAM_id` AS `coms_participant_LIAM_id`,
+        `coms_participant`.`coms_participant_language_id` AS `coms_participant_language_id`,
+        `coms_participant`.`coms_participant_gender` AS `coms_participant_gender`,
+        CONCAT('repl_abbr_front ',
+                GROUP_CONCAT(`coms_participant_email`.`coms_participant_emailadresss`
+                    SEPARATOR ' , '),
+                'repl_abbr_mid ',
+                `coms_participant`.`coms_participant_lastname`,
+                'repl_abbr_end ') AS `coms_participant_lastname`,
+        `coms_participant`.`coms_participant_firstname` AS `coms_participant_firstname`,
+        `coms_participant`.`coms_participant_public` AS `coms_participant_public`,
+        `coms_participant`.`coms_participant_placeofbirth` AS `coms_participant_placeofbirth`,
+        `coms_participant`.`coms_participant_birthcountry` AS `coms_participant_birthcountry`,
+        `coms_participant`.`coms_participant_dateofbirth` AS `coms_participant_dateofbirth`,
+        `coms_participant`.`coms_participant_EXTERNAL_id` AS `coms_participant_EXTERNAL_id`,
+        `coms_participant`.`state_id` AS `state_id`
+    FROM
+        (`coms_participant`
+        JOIN `coms_participant_email` ON ((`coms_participant_email`.`coms_participant_id` = `coms_participant`.`coms_participant_id`)))
+    GROUP BY `coms_participant`.`coms_participant_id`
+        
