@@ -395,5 +395,5 @@ CREATE
         JOIN `coms_training_organisation_proctor` ON ((`coms_training_organisation_proctor`.`coms_training_organisation_id` = `coms_training_organisation`.`coms_training_organisation_id`)))
         JOIN `coms_proctor` ON ((`coms_training_organisation_proctor`.`coms_proctor_id` = `coms_proctor`.`coms_proctor_id`)))
         JOIN `state` ON ((`coms_training_organisation_proctor`.`state_id` = `state`.`state_id`)))
-        WHERE `coms_proctor`.`state_id` = 60
+        WHERE `coms_proctor`.`state_id` = 50
         AND `coms_training_organisation_proctor`.`state_id`= 141;
