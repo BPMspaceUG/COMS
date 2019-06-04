@@ -397,3 +397,32 @@ CREATE
         JOIN `state` ON ((`coms_training_organisation_proctor`.`state_id` = `state`.`state_id`)))
         WHERE `coms_proctor`.`state_id` = 50
         AND `coms_training_organisation_proctor`.`state_id`= 141;
+		
+		
+		
+DROP procedure IF EXISTS `merge_participant`;
+
+DELIMITER $$
+CREATE PROCEDURE `merge_participant`(
+	IN `ID_to_delete` INT,
+	IN `ID_to_migrate_to` INT
+)
+BEGIN
+UPDATE `coms_certificate_participant` SET `coms_participant_id`= ID_to_migrate_to WHERE `coms_participant_id` = ID_to_delete;
+UPDATE `coms_participant_exam_event` SET `coms_participant_id`= ID_to_migrate_to WHERE `coms_participant_id` = ID_to_delete;
+UPDATE `coms_participant_training_event` SET `coms_participant_id`= ID_to_migrate_to WHERE `coms_participant_id` = ID_to_delete;
+DELETE FROM `coms_participant_identifier` WHERE `coms_participant_id` = ID_to_delete;
+
+IF (STRCMP((SELECT `coms_participant_emailadresss` FROM `coms_participant_email` WHERE `coms_participant_id` = ID_to_delete LIMIT 1), (SELECT `coms_participant_emailadresss` FROM `coms_participant_email` WHERE `coms_participant_id` = ID_to_migrate_to LIMIT 1)) != 0) THEN BEGIN INSERT INTO `coms_participant_email` (`coms_participant_id`, `coms_participant_emailadresss`, `state_id`)
+SELECT ID_to_migrate_to, `coms_participant_emailadresss`, 113 FROM `coms_participant_email` WHERE `coms_participant_id` = ID_to_delete LIMIT 1;
+DELETE FROM `coms_participant_email` WHERE `coms_participant_id` = ID_to_delete;
+END;
+ELSE 
+DELETE FROM `coms_participant_email` WHERE `coms_participant_id` = ID_to_delete;
+END IF;
+
+
+DELETE FROM `coms_participant` WHERE `coms_participant_id` = ID_to_delete ;
+END$$
+
+DELIMITER ;
